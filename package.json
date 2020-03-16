@@ -24,12 +24,16 @@
     "icon"
   ],
   "license": "Apache-2.0",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
   "scripts": {
     "build": "rollup -c",
     "pretest": "npm run build",
     "test": "karma start test/karma.config.js",
     "prepublishOnly": "npm run build",
-    "publish": "npm publish --access=public --ignore-scripts"
+    "publish": "npm publish --ignore-scripts"
   },
   "peerDependencies": {
     "vue": "2.x"
@@ -40,10 +44,10 @@
     "@babel/preset-env": "^7.8.7",
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
-    "@types/chai": "^4.2.10",
+    "@types/chai": "^4.2.11",
     "@types/karma": "^4.4.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^13.9.0",
+    "@types/node": "^13.9.1",
     "@vue/test-utils": "^1.0.0-beta.32",
     "chai": "^4.2.0",
     "karma": "^4.4.1",
@@ -53,10 +57,10 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-webpack": "^4.0.2",
     "mocha": "^7.1.0",
-    "rollup": "^2.0.2",
+    "rollup": "^2.0.6",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-clear": "^2.0.7",
-    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-terser": "^5.3.0",
     "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.42.0"
