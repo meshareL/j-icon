@@ -5,7 +5,7 @@ A SVG icon component for Vue
 
 ## 安装
 ```text
-npm install tomoeed/j-icon --save
+npm install @tomoeed/j-icon --save
 ```
 
 ## 使用
@@ -62,11 +62,14 @@ HTML [aria-label attribute](https://developer.mozilla.org/en-US/docs/Web/Accessi
 function Book(h) {
     return [h('path', {attrs: {d: ""}})];
 }
+// iconName属性可以省略
+// 如果省略 iconName 属性, 将使用函数名称
+Book.iconName = 'book';
+// size 属性可以省略
+// 如果省略 size 属性, 将使用 viewBox 属性
+// e.g: viewBox = [0, 0, 12, 16] --> size = [12, 16]
 //        width, height
 Book.size = [16, 16];
-// viewBox属性可以省略
-// 如果省略viewBox属性, 将使用 size 属性生成
-// i.e: size = [12, 16] -> viewBox = '0 0 12 16'
 Book.viewBox = [0, 0, 16, 16];
 ```
 

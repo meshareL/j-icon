@@ -1,6 +1,6 @@
 'use strict';
 import IconNotFoundError from './not-found-error';
-import {startWith} from './util';
+import {kebabCase} from './util';
 
 /** @type {string[]} */
 const classNames = [];
@@ -23,23 +23,32 @@ const jIcon = {
         role: {required: false, type: String, default: 'img'}
     },
     render(h, context) {
-        const {icon, title, width, height, role, ariaLabel} = context.props
-            , renderFun = typeof icon === 'function' ? icon : icons[icon] || function () {throw new IconNotFoundError(icon);}()
-            , children = renderFun(h)
-            , [defWidth, defHeight] = renderFun.size
-            , viewBox = renderFun.viewBox;
+        const {icon, title, width, height, role, ariaLabel} = context.props;
 
-        let iconName = renderFun.name.replace(/([A-Z])/g, (_, c) => `-${c.toLowerCase()}`);
-        iconName = startWith(iconName, '-') ? iconName : `-${iconName}`;
+        /** @type {Icon} */
+        const renderFun = typeof icon === 'function' ? icon : icons[icon] || function () {throw new IconNotFoundError(icon);}();
+        const iconName = typeof icon === 'string' ? icon : (renderFun.iconName || renderFun.name);
+
+        const children = renderFun(h);
+        if (!Array.isArray(children)) {
+            throw new TypeError(`JIcon: The icon function must return an array, iconName: ${iconName}`);
+        }
+
+        const viewBox = renderFun.viewBox;
+        if (!Array.isArray(viewBox) || viewBox.length !== 4) {
+            throw new TypeError(`JIcon: The viewBox attribute must be an array and have four elements, iconName: ${iconName}`);
+        }
+
+        const [defWidth, defHeight] = renderFun.size || [viewBox[2], viewBox[3]];
 
         /** @type {VNodeData} */
         const attrs = {
-            staticClass: `${classNames.join(' ')} icon${iconName} ${context.data.staticClass || ''}`.trim(),
+            staticClass: `${classNames.join(' ')} icon-${kebabCase(iconName)} ${context.data.staticClass || ''}`.trim(),
             attrs: {
                 ...context.data.attrs,
                 width: width ? width : defWidth,
                 height: height ? height : defHeight,
-                viewBox: viewBox ? viewBox.join(' ') : `0 0 ${defWidth} ${defHeight}`,
+                viewBox: viewBox.join(' '),
                 'aria-label': ariaLabel,
                 'aria-hidden': (!ariaLabel).toString(),
                 role

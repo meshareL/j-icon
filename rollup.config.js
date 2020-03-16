@@ -1,4 +1,5 @@
 'use strict';
+import pluginClear from 'rollup-plugin-clear';
 import pluginNodeResolve from '@rollup/plugin-node-resolve';
 import pluginCommonjs from '@rollup/plugin-commonjs';
 import pluginBabel from 'rollup-plugin-babel';
@@ -23,6 +24,7 @@ export default {
         }
     ],
     plugins: [
+        pluginClear({targets: ['dist']}),
         pluginNodeResolve(),
         pluginCommonjs(),
         pluginBabel({exclude: 'node_modules/**'}),

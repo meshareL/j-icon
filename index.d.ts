@@ -6,8 +6,9 @@ interface Icon<
     V extends Array<number> = [number, number, number, number]> {
 
     (h: CreateElement): VNode[];
-    size: [W, H];
-    viewBox?: V;
+    iconName?: string;
+    size?: [W, H];
+    viewBox: V;
 }
 
 interface Options {

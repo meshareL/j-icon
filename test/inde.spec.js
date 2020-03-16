@@ -3,7 +3,7 @@ import {assert} from 'chai';
 import {shallowMount, createLocalVue} from '@vue/test-utils';
 import jIcon from '../src/j-icon';
 import install from '../src/index';
-import icons, {Code, X} from './icon';
+import icons, {Code, Reply, X} from './icon';
 
 const vue = createLocalVue();
 vue.use(install, {icons, classNames: ['j-icon']});
@@ -30,6 +30,13 @@ describe('Vue j-icon component', () => {
         it('viewBox', () => {
             const element = shallowMount(jIcon, {propsData: {icon: 'x'}});
             assert.equal(element.attributes('viewBox'), X.viewBox.join(' '));
+        });
+
+        it('missing the size attribute', () => {
+            const element = shallowMount(jIcon, {propsData: {icon: 'reply'}});
+            assert.isTrue(element.exists());
+            assert.equal(element.attributes('width'), Reply.viewBox[2].toString());
+            assert.equal(element.attributes('height'), Reply.viewBox[3].toString());
         });
     });
 
