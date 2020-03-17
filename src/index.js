@@ -1,5 +1,5 @@
 'use strict';
-import jIcon, {classNames as iClassNames, icons as iIcons} from './j-icon';
+import jIcon, {componentOptions} from './j-icon';
 
 /**
  * Vue plugin install function
@@ -7,25 +7,27 @@ import jIcon, {classNames as iClassNames, icons as iIcons} from './j-icon';
  * @param {VueConstructor} vue constructor
  * @param {PluginOption} options plugin options
  */
-function install(vue, options = {name: jIcon.name, classNames: [], icons: {}}) {
-    const {name, classNames, icons} = options;
+function install(vue, options) {
+    const {
+        name = jIcon.name,
+        classNames = [],
+        prefix = true,
+        icons = {}
+    } = options || {};
 
     vue.component(name, jIcon);
 
-    iClassNames.push(...classNames);
-
-    for (const name in icons) {
-        if (icons.hasOwnProperty(name)) {
-            iIcons[name] = icons[name];
-        }
-    }
+    componentOptions.classes = classNames;
+    componentOptions.prefix = prefix;
+    componentOptions.icons = icons;
 }
 
 export default install;
 
 /**
  * @typedef {Object} PluginOption
- * @property {string} [name] component name
- * @property {string[]} [classNames] the svg class attribute
- * @property {Object<string, Icon>} [icons] svg render
+ * @property {string} [name] Component name
+ * @property {string[]} [classNames] SVG class attribute
+ * @property {boolean|string} [prefix] Icon name class prefix
+ * @property {Object<string, Icon>} [icons] Element render function
  */

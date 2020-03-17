@@ -18,22 +18,36 @@ Vue.use(jIcon, {name: '', icons: {}, classNames: []});
 
 ## 插件可选的选项对象
 - `name`: 组件名称
-```text
+```vue
 Vue.use(jIcon, {name: 'v-icon'});
 // use
 <v-icon icon=""/>
 ```
+
 - `icons`: 所有图标渲染函数. 安装插件时传入的渲染函数在使用组件时可以直接使用该函数的名称
-```text
+```vue
 Vue.use(jIcon, {icons: {x: ${renderFunction}}});
 // use
 <j-icon icon="x"/>
 ```
+
 - `classNames`: 渲染`<svg>`元素时,默认携带的`class`
-```text
+```vue
 Vue.use(jIcon, {classNames: ['icon']});
 // rendered
 <svg class="icon">...</svg>
+```
+
+- `prefix`: 图标名称`class`前缀
+  - 传递`false`将不会添加图标名称`class`
+  - 传递`true`将自动添加`icon-`前缀
+
+```vue
+Vue.use(jIcon, {prefix: 'j-icon-'});
+
+<j-icon icon="x"/>
+// rendered
+<svg class="icon j-icon-x">...</svg>
 ```
 
 ## 组件 props

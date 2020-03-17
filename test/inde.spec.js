@@ -9,6 +9,57 @@ const vue = createLocalVue();
 vue.use(install, {icons, classNames: ['j-icon']});
 
 describe('Vue j-icon component', () => {
+    describe('install plugin', () => {
+        describe('icon name class prefix', () => {
+            it('not add icon name', () => {
+                const vue = createLocalVue();
+                vue.use(install, {icons, prefix: false});
+
+                const element = shallowMount(jIcon, {propsData: {icon: 'x'}});
+                assert.isTrue(element.exists());
+                assert.notInclude(element.classes().join(' '), 'x');
+            });
+
+            it('default prefix', () => {
+                const vue = createLocalVue();
+                vue.use(install, {icons});
+
+                const element = shallowMount(jIcon, {propsData: {icon: 'x'}});
+                assert.isTrue(element.exists());
+                assert.include(element.classes(), 'icon-x');
+            });
+
+            it('custom prefix', () => {
+                const vue = createLocalVue();
+                vue.use(install, {icons, prefix: 'j-icon-'});
+
+                const element = shallowMount(jIcon, {propsData: {icon: 'x'}});
+                assert.isTrue(element.exists());
+                assert.include(element.classes(), 'j-icon-x');
+            });
+        });
+
+        describe('SVG class attribute', () => {
+            it('no element class is added', () => {
+                const vue = createLocalVue();
+                vue.use(install, {icons, prefix: false});
+
+                const element = shallowMount(jIcon, {propsData: {icon: 'x'},context: {staticClass: 'mr-2'}});
+                assert.isTrue(element.exists());
+                assert.equal(element.classes().join(' '), 'mr-2');
+            });
+
+            it('add element class', () => {
+                const vue = createLocalVue();
+                vue.use(install, {icons, prefix: false, classNames: ['j-icon']});
+
+                const element = shallowMount(jIcon, {propsData: {icon: 'x'}});
+                assert.isTrue(element.exists());
+                assert.include(element.classes(), 'j-icon');
+            });
+        });
+    });
+
     describe('create SVG Element', () => {
         it('form SVG name', () => {
             const element = shallowMount(jIcon, {propsData: {icon: 'x'}});

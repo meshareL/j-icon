@@ -2,10 +2,22 @@
 import IconNotFoundError from './not-found-error';
 import {kebabCase} from './util';
 
-/** @type {string[]} */
-const classNames = [];
-/** @type {Object<string, Icon>} */
-const icons = {};
+const componentOptions = {
+    /** @type {string[]} */
+    classes: [],
+    /** @type {boolean|string} */
+    prefix: 'icon',
+    /** @type {Object<string, Icon>} */
+    icons: {}
+};
+
+function normalizePrefix(prefix, name) {
+    if (typeof prefix === 'boolean') {
+        return prefix ? `icon-${kebabCase(name)}` : null;
+    }
+    prefix = typeof prefix === 'string' ? prefix : 'icon-';
+    return `${prefix}${kebabCase(name)}`;
+}
 
 /**
  * Vue Component
@@ -24,6 +36,7 @@ const jIcon = {
     },
     render(h, context) {
         const {icon, title, width, height, role, ariaLabel} = context.props;
+        const {classes, prefix, icons} = componentOptions;
 
         /** @type {Icon} */
         const renderFun = typeof icon === 'function' ? icon : icons[icon] || function () {throw new IconNotFoundError(icon);}();
@@ -41,9 +54,18 @@ const jIcon = {
 
         const [defWidth, defHeight] = renderFun.size || [viewBox[2], viewBox[3]];
 
+        const staticClass = [
+            ...classes,
+            normalizePrefix(prefix, iconName),
+            context.data.staticClass
+        ]
+            .filter(value => !!value)
+            .join(' ')
+            .trim();
+
         /** @type {VNodeData} */
         const attrs = {
-            staticClass: `${classNames.join(' ')} icon-${kebabCase(iconName)} ${context.data.staticClass || ''}`.trim(),
+            staticClass,
             attrs: {
                 ...context.data.attrs,
                 width: width ? width : defWidth,
@@ -63,4 +85,4 @@ const jIcon = {
 };
 
 export default jIcon;
-export { classNames, icons };
+export { componentOptions };
