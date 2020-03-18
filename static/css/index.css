@@ -1,0 +1,42 @@
+file-attachment { display: block }
+
+details-dialog {
+    position: fixed;
+    margin: 10vh auto 0;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    max-height: 80vh;
+    max-width: 90vw;
+    width: 448px;
+}
+.file-transform {
+    padding-top: 100px;
+    padding-bottom: 80px;
+    text-align: center;
+}
+.chooser-text {
+    cursor: pointer;
+}
+.overscroll-contain {
+    overscroll-behavior: contain;
+}
+.hover-visible .hover-visible-target {
+    visibility: hidden;
+    opacity: 0;
+}
+.hover-visible:hover .hover-visible-target {
+    visibility: visible;
+    animation-name: fade-in;
+    animation-duration: 200ms;
+    animation-delay: 400ms;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+.js-focused {
+    border: 1px solid #2188ff;
+    border-radius: 3px;
+    box-shadow: 0 0 0 0.2em #c8e1ff;
+}
