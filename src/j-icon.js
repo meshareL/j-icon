@@ -21,7 +21,7 @@ function normalizePrefix(prefix, name) {
 
 /**
  * Vue Component
- * @type {FunctionalComponentOptions}
+ * @type {FunctionalComponentOptions<JIconProps>}
  */
 const jIcon = {
     name: 'JIcon',
@@ -30,7 +30,7 @@ const jIcon = {
         icon: {required: true, type: [String, Function]},
         title: {required: false, type: String, default: ''},
         width: {required: false, type: [Number, String], default: undefined},
-        height: {required: false, type: {Number, String}, default: undefined},
+        height: {required: false, type: [Number, String], default: undefined},
         ariaLabel: {required: false, type: String, default: undefined},
         role: {required: false, type: String, default: 'img'}
     },
@@ -86,3 +86,14 @@ const jIcon = {
 
 export default jIcon;
 export { componentOptions };
+
+/**
+ * JIcon Component Props
+ * @typedef {Object} JIconProps
+ * @property {string|Icon} Icon name or function that render child elements
+ * @property {string} [title=''] Title element
+ * @property {number|string} [width] SVG element width attribute
+ * @property {number|string} [height] SVG element height attribute
+ * @property {string} [ariaLabel] HTML element aria-label attribute
+ * @property {string} [role='img'] HTML element role attribute
+ */
