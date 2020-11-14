@@ -1,6 +1,6 @@
 'use strict';
 
-function startWith(str, search, pos = 0) {
+function startWith(str: string, search: string, pos: number = 0): boolean {
     pos = !pos || pos < 0 ? 0 : +pos;
     return str.substring(pos, pos + search.length) === search;
 }
@@ -13,12 +13,12 @@ function startWith(str, search, pos = 0) {
  * KebabCase ---> kebab-case
  * kebabcase ---> kebabcase
  *
- * @param {string} str 字符串
+ * @param str 字符串
  * @return {string} KebabCase
  */
-function kebabCase(str) {
+function kebabCase(str: string): string {
     // /(?!^)([A-Z])/g
-    const delimiter = (index) => index === 0 ? '' : '-';
+    const delimiter = (index: number) => index === 0 ? '' : '-';
     return str.replace(/([A-Z])/g, (_, c, i) => `${delimiter(i)}${c.toLowerCase()}`);
 }
 
