@@ -29,11 +29,11 @@
     "access": "public"
   },
   "scripts": {
+    "prebuild": "rimraf dist",
     "build": "rollup -c",
     "pretest": "npm run build",
     "test": "karma start test/karma.config.js",
-    "prepublishOnly": "npm run build",
-    "publish": "npm publish --ignore-scripts"
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "vue": "2.x"
@@ -57,9 +57,9 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-webpack": "^4.0.2",
     "mocha": "^7.2.0",
+    "rimraf": "^3.0.2",
     "rollup": "^2.33.3",
     "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-terser": "^5.3.1",
     "vue": "^2.6.12",
     "vue-template-compiler": "^2.6.12",
