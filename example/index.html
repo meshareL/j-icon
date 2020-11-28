@@ -4,66 +4,73 @@
     <meta charset="UTF-8">
     <title>j-icon Example</title>
     <style>
+        body { margin: 0; }
+        .mr-3 { margin-bottom: 16px; }
         .container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .mb-3 {
-            margin-bottom: 16px;
+            justify-content: center;
+            padding-top: 200px;
+            height: 100vh;
         }
         .j-icon {
-            cursor: pointer;
+            display: inline-block;
+            vertical-align: middle;
         }
     </style>
 </head>
 <body>
+<div id="root"></div>
 
-    <div id="application"></div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js" integrity="sha256-ngFW3UnAN0Tnm76mDuu7uUtYEcG3G5H1+zioJw3t+68=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../dist/index.umd.js"></script>
-    <script type="text/javascript">
-        function Code(h) {
-          return [h('path', {attrs: {'fill-rule': 'evenodd', 'd': 'M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z'}})];
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+<script src="../dist/index.umd.js"></script>
+<script type="application/javascript">
+    const code = {
+        name: 'code',
+        viewBox: [0, 0, 14, 16],
+        size: [14, 16],
+        render(h) {
+            return [h('path', {attrs: {'fill-rule': 'evenodd', 'd': 'M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z'}})];
         }
-        Code.size = [14, 16];
-        Code.viewBox = [0, 0, 14, 16];
-
-        function Reply(h) {
+    };
+    const reply = {
+        name: 'reply',
+        viewBox: [0, 0, 14, 16],
+        render(h) {
             return [h('path', {attrs: {'fill-rule': 'evenodd', 'd': 'M6 3.5c3.92.44 8 3.125 8 10-2.312-5.062-4.75-6-8-6V11L.5 5.5 6 0v3.5z'}})];
         }
-        Reply.viewBox = [0, 0, 14, 16];
-
-        function X(h) {
+    };
+    const x = {
+        name: 'x',
+        viewBox: [0, 0, 12, 16],
+        size: [12, 16],
+        render(h) {
             return [h('path', {attrs: {'fill-rule': 'evenodd', 'd': 'M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z'}})];
         }
-        X.viewBox = [0, 0, 12, 16];
-        const icons = {code: Code, reply: Reply, x: X};
-    </script>
-    <script type="text/x-template" id="j-icon-demo">
-        <div id="application" class="container" style="width: 300px; margin: 100px auto 0">
-            <j-icon icon="code" class="mb-3" aria-label="ariaLabel" @click="onClick" data-name="code"/>
-            <j-icon icon="reply" class="mb-3" @click="onClick" data-name="reply"/>
-            <j-icon icon="x" width="24" height="24" @click="onClick" data-name="x"/>
-            <hr>
-            <j-icon icon="code" title="Vue component" aria-label="ariaLabel" @click="onClick" data-name="code"/>
-        </div>
-    </script>
-    <script type="text/javascript">
-        Vue.use(window.JIcon, {name: 'j-icon', classNames: ['j-icon'], icons});
+    };
+    const icons = {code, reply, x};
 
-        new Vue({
-            template: '#j-icon-demo',
-            methods: {
-                onClick(event) {
-                    const svg = event.target;
-                    if (!(svg instanceof SVGSVGElement)) return;
-                    alert(`SVG ${svg.dataset.name}`);
-                }
+    Vue.use(window.JIcon, {name: 'j-icon', classes: ['j-icon'], prefix: 'j-icon-', icons});
+
+    new Vue({
+        template: `<div class="container">
+            <div>
+                <j-icon icon="code" class="mr-3" aria-label="ariaLabel" @click="onClick" data-name="code"/>
+                <j-icon icon="reply" class="mr-3" @click="onClick" data-name="reply"/>
+                <j-icon icon="x" class="mr-3" @click="onClick" data-name="x"/>
+                <hr>
+                <j-icon icon="code" class="mr-3" width="24" height="24" @click="onClick" data-name="code"/>
+                <j-icon icon="reply" class="mr-3" width="24" height="24" @click="onClick" data-name="reply"/>
+                <j-icon icon="x" class="mr-3" width="24" height="24" @click="onClick" data-name="x"/>
+            </div>
+        </div>`,
+        methods: {
+            onClick(event) {
+                const svg = event.target;
+                if (!(svg instanceof SVGSVGElement)) return;
+                alert(`SVG ${svg.dataset.name}`);
             }
-        }).$mount('#application');
-    </script>
+        }
+    }).$mount('#root');
+</script>
 </body>
 </html>

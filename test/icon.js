@@ -17,5 +17,22 @@ function X(h) {
 X.size = [12, 16];
 X.viewBox = [0, 0, 12, 16];
 
-export default { reply: Reply, x: X };
-export { Code, Reply, X };
+const reply = {
+    name: 'reply',
+    viewBox: [0, 0, 14, 16],
+    render(h) {
+        return [h('path', {attrs: {'fill-rule': 'evenodd', 'd': 'M6 3.5c3.92.44 8 3.125 8 10-2.312-5.062-4.75-6-8-6V11L.5 5.5 6 0v3.5z'}})];
+    }
+};
+
+const x = {
+    name: 'x',
+    viewBox: [0, 0, 12, 16],
+    size: [12, 16],
+    render(h) {
+        return [h('path', {attrs: {'fill-rule': 'evenodd', 'd': 'M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z'}})];
+    }
+};
+
+export default { reply: Reply, x };
+export { Code, Reply, X, reply, x };

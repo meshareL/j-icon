@@ -1,25 +1,20 @@
 'use strict';
-
-function startWith(str, search, pos = 0) {
-    pos = !pos || pos < 0 ? 0 : +pos;
-    return str.substring(pos, pos + search.length) === search;
-}
-
 /**
- * lower case with dashes
+ * 将渲染函数转换为对象
  *
- * @example
- * kebabCase ---> kebab-case
- * KebabCase ---> kebab-case
- * kebabcase ---> kebabcase
- *
- * @param {string} str 字符串
- * @return {string} KebabCase
+ * @param {IconFunction} fun 图标函数
+ * @param {string} [name] 图标名称
  */
-function kebabCase(str) {
-    // /(?!^)([A-Z])/g
-    const delimiter = (index) => index === 0 ? '' : '-';
-    return str.replace(/([A-Z])/g, (_, c, i) => `${delimiter(i)}${c.toLowerCase()}`);
+function toObject(fun, name) {
+    return {
+        name: name ?? fun.iconName ?? fun.name,
+        viewBox: fun.viewBox,
+        size: fun.size,
+        class: fun.class,
+        style: fun.style,
+        attributes: fun.attributes,
+        render: fun
+    };
 }
 
-export { startWith, kebabCase };
+export { toObject };

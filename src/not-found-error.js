@@ -1,12 +1,11 @@
 'use strict';
-
 /**
- * The SVG render function was not found
+ * The SVG was not found
  */
 class IconNotFoundError extends Error {
-    constructor(iconName) {
+    constructor(name) {
         super();
-        this.message = `JIcon: The SVG render function was not found, name: ${iconName}`;
+        this.message = `JIcon: The SVG was not found, icon: ${name}`;
     }
 }
 
