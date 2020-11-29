@@ -3,6 +3,8 @@ Vue 3.0 SVG图标组件
 
 该组件仅渲染`<svg>`元素. 你必须通过`icon` prop传入渲染函数或在安装插件时传入需要使用的图标
 
+使用 [j-icon-cli](https://github.com/meshareL/j-icon/tree/cli) 批量创建图标
+
 ## 安装
 ```shell
 npm install @tomoeed/j-icon --save
@@ -13,7 +15,7 @@ npm install @tomoeed/j-icon --save
 import {createApp} from 'vue';
 import JIcon from 'j-icon';
 
-createApp({}).use(JIcon, {name: '', classes: [], prefix: [], icons: {}});
+createApp({}).use(JIcon, {name: '', classes: [], prefix: true, icons: []});
 ```
 
 ## 插件可选的选项对象
@@ -26,7 +28,8 @@ app.use(JIcon, {name: 'v-icon'});
 
 - `icons`: 所有图标渲染函数. 安装插件时传入的图标在使用组件时可以直接使用该图标的名称
 ```vue
-app.use(JIcon, {icons: {x: {}}});
+app.use(JIcon, {icons: {}});
+app.use(JIcon, {icons: []});
 
 <j-icon icon="x"/>
 ```

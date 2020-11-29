@@ -21,18 +21,23 @@
 <body>
 <div id="root"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.0.3/dist/vue.global.js"></script>
 <script src="../dist/index.umd.js"></script>
 <script type="application/javascript">
     const code = {
         name: 'code',
         viewBox: [0, 0, 14, 16],
         size: [14, 16],
+        class: ['d-inline-block'],
+        style: {display: 'inline-block'},
+        attributes: {xmlns: 'http://www.w3.org/2000/svg'},
         render: () => [Vue.h('path', {'fill-rule': 'evenodd', 'd': 'M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z'})]
     };
     const reply = {
         name: 'reply',
         viewBox: [0, 0, 14, 16],
+        class: 'd-inline-block align-items-center',
+        style: 'display: inline-block; align-items: center;',
         render: () => [Vue.h('path', {'fill-rule': 'evenodd', 'd': 'M6 3.5c3.92.44 8 3.125 8 10-2.312-5.062-4.75-6-8-6V11L.5 5.5 6 0v3.5z'})]
     };
     const x = {
@@ -41,24 +46,24 @@
         size: [12, 16],
         render: () => [Vue.h('path', {'fill-rule': 'evenodd', 'd': 'M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z'})]
     };
-    const icons = {code, reply, x};
+    const icons = [code, reply, x];
 
     Vue.createApp({
         template: `<div class="container">
-            <j-icon icon="code" class="mr-3" aria-label="ariaLabel" @click="onClick" data-name="code"/>
-            <j-icon icon="reply" class="mr-3" @click="onClick" data-name="reply"/>
-            <j-icon icon="x" class="mr-3" @click="onClick" data-name="x"/>
+            <j-icon icon="code" class="mr-3" aria-label="ariaLabel" @click="onClick"/>
+            <j-icon icon="reply" class="mr-3" @click="onClick"/>
+            <j-icon icon="x" class="mr-3" @click="onClick"/>
             <hr>
-            <j-icon icon="code" class="mr-3" width="24" height="24" @click="onClick" data-name="code"/>
-            <j-icon icon="reply" class="mr-3" width="24" height="24" @click="onClick" data-name="reply"/>
-            <j-icon icon="x" class="mr-3" width="24" height="24" @click="onClick" data-name="x"/>
+            <j-icon icon="code" class="mr-3" width="24" height="24" @click="onClick"/>
+            <j-icon icon="reply" class="mr-3" width="24" height="24" @click="onClick"/>
+            <j-icon icon="x" class="mr-3" width="24" height="24" @click="onClick"/>
         </div>`,
         setup() {
             function onClick(event) {
                 const element = event.target;
                 if (!(element instanceof SVGSVGElement)) return;
 
-                alert(`SVG: ${element.dataset.name}`);
+                alert('Clicked');
             }
 
             return { onClick };

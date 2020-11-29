@@ -6,8 +6,6 @@ import pluginBabel from '@rollup/plugin-babel';
 import {terser as pluginTerser} from 'rollup-plugin-terser';
 import pkg from './package.json';
 
-process.env.NODE_ENV = 'production';
-
 export default {
     input: './src/index.ts',
     output: [

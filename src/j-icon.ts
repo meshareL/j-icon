@@ -1,10 +1,9 @@
 'use strict';
 import {h as createElement, PropType, ComponentPropsOptions, FunctionalComponent} from 'vue';
 import IconNotFoundError from './not-found-error';
-import {kebabCase} from './util';
-import {Icon, Option} from '../index';
+import {Icon} from '../index';
 
-interface IJIconProp {
+interface JIconProp {
     icon: string | Icon;
     title?: string;
     width?: number | string;
@@ -13,13 +12,19 @@ interface IJIconProp {
     role?: string;
 }
 
-const preset: Required<Omit<Option, 'name'>> = {
+interface Preset {
+    classes: string[];
+    prefix: boolean | string;
+    icons: Record<string, Icon>;
+}
+
+const preset: Preset = {
     classes: [],
-    prefix: 'icon-',
+    prefix: true,
     icons: {}
 };
 
-const jIconProp: ComponentPropsOptions<IJIconProp> = {
+const jIconProp: ComponentPropsOptions<JIconProp> = {
     icon: {required: true, type: [String, Object] as PropType<string | Icon>},
     title: {required: false, type: String, default: undefined},
     width: {required: false, type: [Number, String] as PropType<undefined | number | string>, default: undefined},
@@ -43,12 +48,12 @@ function mergeClass(name: string, icon: Icon): string[] {
     const clazz = []
         , {classes, prefix} = preset;
 
-    if (classes.length) clazz.push(...preset.classes);
+    if (classes.length) clazz.push(...classes);
 
-    if (typeof prefix === 'boolean' && prefix) {
-        clazz.push(`icon-${kebabCase(name)}`);
+    if (typeof prefix === 'boolean') {
+        prefix && clazz.push(`icon-${name}`);
     } else {
-        clazz.push(`${prefix}${kebabCase(name)}`);
+        clazz.push(`${prefix}${name}`);
     }
 
     if (icon.class) {
@@ -60,22 +65,22 @@ function mergeClass(name: string, icon: Icon): string[] {
     return clazz;
 }
 
-const component: FunctionalComponent<IJIconProp> = (props, {attrs}) => {
-    if (!props.icon) throw new Error('You must pass in attributes for the icon parameter');
+const component: FunctionalComponent<JIconProp> = (props, {attrs}) => {
+    if (!props.icon) throw new Error('JIcon: You must pass in attributes for the icon parameter');
 
     const detail = findIcon(props.icon)
         , iconName = typeof props.icon === 'string' ? props.icon : detail.name
         , viewBox = detail.viewBox;
 
     if (!Array.isArray(viewBox) || viewBox.length != 4) {
-        throw new Error(`GIcon: The viewBox attribute must be an array and have four elements, icon: ${iconName}`);
+        throw new Error(`JIcon: The viewBox attribute must be an array and have four elements, icon: ${iconName}`);
     }
 
     const [width, height] = detail.size || [viewBox[2], viewBox[3]]
         , data: Record<string, unknown> = {
         fill: 'currentColor',
-        ...attrs,
         ...detail.attributes,
+        ...attrs,
         class: mergeClass(iconName, detail),
         style: detail.style,
         width: props.width || width,

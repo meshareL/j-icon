@@ -3,7 +3,7 @@ import {assert} from 'chai';
 import {shallowMount} from '@vue/test-utils';
 import JIcon from '../src/j-icon';
 import install from '../src/index';
-import icons, {code, x} from './icon';
+import icons, {code, reply, x} from './icon';
 
 describe('Vue j-icon component', () => {
     describe('install plugin', () => {
@@ -14,9 +14,8 @@ describe('Vue j-icon component', () => {
                     global: {plugins: [[install, {icons, prefix: false}]]}
                 });
 
-
                 assert.isTrue(element.exists());
-                assert.notInclude(element.classes(), ['x', 'icon-x']);
+                assert.isEmpty(element.classes());
             });
 
             it('default prefix', () => {
@@ -54,28 +53,29 @@ describe('Vue j-icon component', () => {
     describe('create SVG element', () => {
         function assertion(element, detail) {
             assert.isTrue(element.exists());
-            assert.equal(element.attributes('width'), detail.size[0]);
-            assert.equal(element.attributes('height'), detail.size[1]);
+            assert.equal(element.attributes('width'), (detail.size || [])[0] || detail.viewBox[2]);
+            assert.equal(element.attributes('height'), (detail.size || [])[1] || detail.viewBox[3]);
             assert.equal(element.attributes('viewBox'), detail.viewBox.join(' '));
             assert.equal(element.attributes('aria-hidden'), 'true');
         }
 
-        it('from SVG name', () => {
-            assertion(shallowMount(
-                JIcon,
-                {
-                    props: {icon: 'x'},
-                    global: {plugins: [[install, {icons}]]}
-                }),
-                x);
-        });
+        it('from SVG name', () => assertion(shallowMount(JIcon, {props: {icon: 'x'}, global: {plugins: [[install, {icons}]]}}), x));
 
         it('from icon detail', () => {
             const element = shallowMount(JIcon, {props: {icon: code, style: {'text-align': 'center'}}});
             assertion(element, code);
             assert.include(element.classes(), 'clazz');
             assert.equal(element.attributes('focusable'), 'false');
-            assert.include(element.attributes('style'), 'display: inline-block');
+            assert.equal(element.element.style.display, 'inline-block');
+            assert.equal(element.element.style.textAlign, 'center');
+        });
+
+        it('rollback to the viewBox', () => assertion(shallowMount(JIcon, {props: {icon: reply}}), reply));
+
+        it('override icon attribute', () => {
+            const element = shallowMount(JIcon, {props: {icon: code, focusable: 'true'}});
+            assertion(element, code);
+            assert.equal(element.attributes('focusable'), 'true');
         });
     });
 

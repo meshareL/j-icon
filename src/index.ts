@@ -1,7 +1,7 @@
 'use strict';
 import {Plugin} from 'vue';
 import JIcon, {preset} from './j-icon';
-import {Option} from '../index';
+import {Icon, Option} from '../index';
 
 /**
  * Vue plugin install function
@@ -19,9 +19,19 @@ const install: Plugin = (app, options: Option) => {
 
     app.component(name, JIcon);
 
+    let processed;
+    if (Array.isArray(icons)) {
+        processed = icons.reduce<Record<string, Icon>>((obj, icon) => {
+            obj[icon.name] = icon;
+            return obj;
+        }, {});
+    } else {
+        processed = icons;
+    }
+
     preset.classes = classes;
     preset.prefix = prefix;
-    preset.icons = icons;
+    preset.icons = processed;
 };
 
 export default install;

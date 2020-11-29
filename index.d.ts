@@ -53,7 +53,7 @@ interface Option {
      * @example
      * <j-icon icon="x"/>
      */
-    icons?: Record<string, Icon>;
+    icons?: Icon[] | Record<string, Icon>;
 }
 
 /**
