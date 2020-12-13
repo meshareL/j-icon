@@ -115,6 +115,20 @@ describe('Vue j-icon component', () => {
             assert.equal(element.element.style.fontSize, '14px');
             assert.equal(element.element.style.padding, '1px');
         });
+
+        it('icon additional attribute', () => {
+            const element = shallowMount(JIcon, {propsData: {icon: reply}});
+
+            assert.isTrue(element.exists());
+            assert.equal(element.attributes('focusable'), 'true');
+        });
+
+        it('override icon attribute', () => {
+            const element = shallowMount(JIcon, {propsData: {icon: reply}, attrs: {focusable: 'false'}});
+
+            assert.isTrue(element.exists());
+            assert.equal(element.attributes('focusable'), 'false');
+        });
     });
 
     describe('component props', () => {

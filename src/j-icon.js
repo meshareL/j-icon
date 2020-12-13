@@ -99,6 +99,7 @@ const component = {
             staticClass: mergeClass(iconName, detail.class, context.data.staticClass).join(' '),
             staticStyle: mergeStyle(icon, context.data.staticStyle),
             attrs: {
+                ...(detail.attributes ?? {}),
                 ...context.data.attrs,
                 viewBox: viewBox.join(' '),
                 width: width ?? defWidth,
