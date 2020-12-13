@@ -74,24 +74,48 @@ describe('Vue j-icon component', () => {
 
         it('rollback to the viewBox', () => assertion(shallowMount(JIcon, {propsData: {icon: reply}}), reply));
 
-        it('merge class', () => {
-            let i = Object.assign({}, reply, {class: 'prefix suffix'});
-            let element = shallowMount(JIcon, {propsData: {icon: i}});
-            assert.isTrue(element.exists());
-            assert.includeMembers(element.classes(), ['prefix', 'suffix']);
+        describe('merge class', () => {
+            it('create the element using the SVG name', () => {
+                const iicons = Object.assign({}, icons, {classed: Object.assign({}, reply, {class: 'prefix suffix'})})
+                    , localVue = createLocalVue();
+                localVue.use(install, {icons: iicons});
 
-            i = Object.assign({}, reply, {class: ['prefix', 'suffix']});
-            element = shallowMount(JIcon, {propsData: {icon: i}});
-            assert.isTrue(element.exists());
-            assert.includeMembers(element.classes(), ['prefix', 'suffix']);
+                let element = shallowMount(JIcon, {localVue, propsData: {icon: 'classed'}});
+                assert.isTrue(element.exists());
+                assert.includeMembers(element.classes(), ['prefix', 'suffix']);
 
-            element = shallowMount(JIcon, {propsData: {icon: i}, context: {staticClass: 'one two'}});
-            assert.isTrue(element.exists());
-            assert.includeMembers(element.classes(), ['prefix', 'suffix', 'one', 'two']);
+                element = shallowMount(JIcon, {localVue, propsData: {icon: 'classed'}, context: {staticClass: 'one two'}});
+                assert.isTrue(element.exists());
+                assert.includeMembers(element.classes(), ['prefix', 'suffix', 'one', 'two']);
 
-            element = shallowMount(JIcon, {propsData: {icon: i}, context: {staticClass: 'one', class: ['two', 'three']}});
-            assert.isTrue(element.exists());
-            assert.includeMembers(element.classes(), ['prefix', 'suffix', 'one', 'two', 'three']);
+                element = shallowMount(JIcon, {
+                    localVue,
+                    propsData: {icon: 'classed'},
+                    context: {staticClass: 'one', class: ['two', 'three']}
+                });
+                assert.isTrue(element.exists());
+                assert.includeMembers(element.classes(), ['prefix', 'suffix', 'one', 'two', 'three']);
+            });
+
+            it('create the element using the icon object', () => {
+                let i = Object.assign({}, reply, {class: 'prefix suffix'});
+                let element = shallowMount(JIcon, {propsData: {icon: i}});
+                assert.isTrue(element.exists());
+                assert.includeMembers(element.classes(), ['prefix', 'suffix']);
+
+                i = Object.assign({}, reply, {class: ['prefix', 'suffix']});
+                element = shallowMount(JIcon, {propsData: {icon: i}});
+                assert.isTrue(element.exists());
+                assert.includeMembers(element.classes(), ['prefix', 'suffix']);
+
+                element = shallowMount(JIcon, {propsData: {icon: i}, context: {staticClass: 'one two'}});
+                assert.isTrue(element.exists());
+                assert.includeMembers(element.classes(), ['prefix', 'suffix', 'one', 'two']);
+
+                element = shallowMount(JIcon, {propsData: {icon: i}, context: {staticClass: 'one', class: ['two', 'three']}});
+                assert.isTrue(element.exists());
+                assert.includeMembers(element.classes(), ['prefix', 'suffix', 'one', 'two', 'three']);
+            });
         });
 
         describe('merge style', () => {
