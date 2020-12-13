@@ -78,7 +78,6 @@ const component: FunctionalComponent<JIconProp> = (props, {attrs}) => {
 
     const [width, height] = detail.size || [viewBox[2], viewBox[3]]
         , data: Record<string, unknown> = {
-        fill: 'currentColor',
         ...detail.attributes,
         ...attrs,
         class: mergeClass(iconName, detail),
