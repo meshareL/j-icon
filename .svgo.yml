@@ -1,0 +1,57 @@
+multipass: true
+
+plugins:
+  - cleanupAttrs: true
+  - inlineStyles: true
+  - removeDoctype: true
+  - removeXMLProcInst: true
+  - removeComments: true
+  - removeMetadata: true
+  - removeTitle: true
+  - removeDesc: true
+  - removeUselessDefs: true
+  - removeXMLNS: false
+  - removeEditorsNSData: true
+  - removeEmptyAttrs: true
+  - removeHiddenElems: true
+  - removeEmptyText: true
+  - removeEmptyContainers: true
+  - removeViewBox: false
+  - cleanupEnableBackground: true
+  - minifyStyles: true
+  - convertStyleToAttrs: true
+  - convertColors: true
+  - convertPathData: true
+  - convertTransform: true
+  - removeUnknownsAndDefaults: true
+  - removeNonInheritableGroupAttrs: true
+  - removeUselessStrokeAndFill: true
+  - removeUnusedNS: true
+  - prefixIds: false
+  - cleanupIDs: true
+  - cleanupNumericValues: true
+  - cleanupListOfValues: false
+  - moveElemsAttrsToGroup: true
+  - moveGroupAttrsToElems: true
+  - collapseGroups: true
+  - removeRasterImages: false
+  - mergePaths: true
+  - convertShapeToPath: true
+  - convertEllipseToCircle: true
+  - sortAttrs: false
+  - sortDefsChildren: true
+  - removeDimensions: true
+  - removeAttrs:
+      attrs:
+#        - xmlns:xlink
+#        - id
+#        - class
+#        - fill
+#        - transform
+#        - href
+#        - clip-path
+#        - clip-rule
+        - data-.*
+  - removeStyleElement: false
+  - removeScriptElement: false
+  - reusePaths: false
