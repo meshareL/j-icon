@@ -94,26 +94,53 @@ describe('Vue j-icon component', () => {
             assert.includeMembers(element.classes(), ['prefix', 'suffix', 'one', 'two', 'three']);
         });
 
-        it('merge style', () => {
-            let i = Object.assign({}, reply, {style: 'display: inline-block'});
-            let element = shallowMount(JIcon, {propsData: {icon: i}});
-            assert.isTrue(element.exists());
-            assert.equal(element.element.style.display, 'inline-block');
+        describe('merge style', () => {
+            it('create the element using the SVG name', () => {
+                const iicons = Object.assign({}, icons, {styled: Object.assign({}, reply, {style: 'display: inline-block'})})
+                    , localVue = createLocalVue();
+                localVue.use(install, {icons: iicons});
 
-            i = Object.assign({}, reply, {style: {display: 'inline-block'}});
-            element = shallowMount(JIcon, {propsData: {icon: i}});
-            assert.isTrue(element.exists());
-            assert.equal(element.element.style.display, 'inline-block');
+                let element = shallowMount(JIcon, {localVue, propsData: {icon: 'styled'}});
+                assert.isTrue(element.exists());
+                assert.equal(element.element.style.display, 'inline-block');
 
-            element = shallowMount(JIcon, {propsData: {icon: i}, context: {staticStyle: {'text-align': 'center'}}});
-            assert.isTrue(element.exists());
-            assert.equal(element.element.style.display, 'inline-block');
-            assert.equal(element.element.style.textAlign, 'center');
+                element = shallowMount(JIcon, {localVue, propsData: {icon: 'styled'}, context: {staticStyle: {'text-align': 'center'}}});
+                assert.isTrue(element.exists());
+                assert.equal(element.element.style.display, 'inline-block');
+                assert.equal(element.element.style.textAlign, 'center');
 
-            element = shallowMount(JIcon, {propsData: {icon: i}, context: {staticStyle: {'font-size': '14px'}, style: 'padding: 1px;'}});
-            assert.isTrue(element.exists());
-            assert.equal(element.element.style.fontSize, '14px');
-            assert.equal(element.element.style.padding, '1px');
+                element = shallowMount(JIcon, {
+                    localVue,
+                    propsData: {icon: 'styled'},
+                    context: {staticStyle: {'font-size': '14px'}, style: 'padding: 1px'}});
+                assert.isTrue(element.exists());
+                assert.equal(element.element.style.display, 'inline-block');
+                assert.equal(element.element.style.fontSize, '14px');
+                assert.equal(element.element.style.padding, '1px');
+            });
+
+            it('create the element using the icon object', () => {
+                let i = Object.assign({}, reply, {style: 'display: inline-block'});
+                let element = shallowMount(JIcon, {propsData: {icon: i}});
+                assert.isTrue(element.exists());
+                assert.equal(element.element.style.display, 'inline-block');
+
+                i = Object.assign({}, reply, {style: {display: 'inline-block'}});
+                element = shallowMount(JIcon, {propsData: {icon: i}});
+                assert.isTrue(element.exists());
+                assert.equal(element.element.style.display, 'inline-block');
+
+                element = shallowMount(JIcon, {propsData: {icon: i}, context: {staticStyle: {'text-align': 'center'}}});
+                assert.isTrue(element.exists());
+                assert.equal(element.element.style.display, 'inline-block');
+                assert.equal(element.element.style.textAlign, 'center');
+
+                element = shallowMount(JIcon, {propsData: {icon: i}, context: {staticStyle: {'font-size': '14px'}, style: 'padding: 1px;'}});
+                assert.isTrue(element.exists());
+                assert.equal(element.element.style.display, 'inline-block');
+                assert.equal(element.element.style.fontSize, '14px');
+                assert.equal(element.element.style.padding, '1px');
+            });
         });
 
         it('icon additional attribute', () => {

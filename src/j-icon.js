@@ -52,7 +52,7 @@ function mergeStyle({style}, staticStyle) {
             .map(value => value.split(':'))
             .filter(value => value.length === 2)
             .reduce((obj, [key, value]) => {
-                obj[key] = value;
+                obj[key.trim()] = value.trim();
                 return obj;
             }, {});
     }
@@ -97,7 +97,7 @@ const component = {
         /** @type {VNodeData} */
         const attrs = {
             staticClass: mergeClass(iconName, detail.class, context.data.staticClass).join(' '),
-            staticStyle: mergeStyle(icon, context.data.staticStyle),
+            staticStyle: mergeStyle(detail, context.data.staticStyle),
             attrs: {
                 ...(detail.attributes ?? {}),
                 ...context.data.attrs,
