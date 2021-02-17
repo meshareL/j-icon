@@ -35,3 +35,4 @@ const install: Plugin = (app, options: Option) => {
 };
 
 export default install;
+export { JIcon };

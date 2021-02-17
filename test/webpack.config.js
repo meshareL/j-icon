@@ -4,6 +4,7 @@ module.exports = {
     mode: 'production',
     devtool: 'eval',
     performance: { hints: false },
+    stats: 'minimal',
     resolve: {
         extensions: ['.wasm', '.mjs', '.js', '.json', '.vue', '.ts'],
         alias: {

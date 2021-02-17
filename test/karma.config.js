@@ -2,9 +2,8 @@
 const webpackConfig = require('./webpack.config.js');
 
 module.exports = function (config) {
-    /** @type {ConfigOptions} */
     const options = {
-        frameworks: ['mocha', 'chai'],
+        frameworks: ['mocha', 'webpack'],
         reporters: ['mocha'],
         port: 4096,
         logLevel: config.LOG_INFO,
@@ -13,7 +12,8 @@ module.exports = function (config) {
         singleRun: true,
         concurrency: Infinity,
         files: [
-            './**/*.spec.js'],
+            './**/*.spec.js'
+        ],
         preprocessors: {
             './**/*.spec.js': ['webpack']
         },

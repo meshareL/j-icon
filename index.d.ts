@@ -1,4 +1,4 @@
-import {VNode, VNodeArrayChildren, Plugin} from 'vue';
+import {VNode, VNodeArrayChildren, Plugin, FunctionalComponent, SVGAttributes} from 'vue';
 
 interface Icon<
     V extends Array<number> = [number, number, number, number],
@@ -56,12 +56,39 @@ interface Option {
     icons?: Icon[] | Record<string, Icon>;
 }
 
+interface Prop {
+    /** 需要渲染的图标的名称或该图标的渲染函数 */
+    icon: string | Icon;
+    /**
+     * 为 SVG 元素提供一个描述性字符串, 用来提升 SVG 文档的可访问性
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/SVG/Element/title title
+     */
+    title?: string;
+    /** SVG 元素宽度 */
+    width?: number | string;
+    /** SVG 元素高度 */
+    height?: number | string;
+    /**
+     * 为 SVG 元素添加标签描述
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-label_attribute aria-label
+     */
+    ariaLabel?: string;
+    /**
+     * @default img
+     * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Role_Img#svg_and_roleimg svg and roleimg
+     */
+    role?: string;
+}
+
 /**
  * 插件安装函数
  *
  * @see Option 插件选项
  */
 declare const install: Plugin;
+declare const component: FunctionalComponent<SVGAttributes & Prop>;
 
 export default install;
-export { Icon, Option };
+export { Icon, Option, component as JIcon, Prop };
