@@ -75,11 +75,6 @@ interface Prop {
      * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-label_attribute aria-label
      */
     ariaLabel?: string;
-    /**
-     * @default img
-     * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Role_Img#svg_and_roleimg svg and roleimg
-     */
-    role?: string;
 }
 
 /**

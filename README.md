@@ -54,10 +54,10 @@ app.use(JIcon, {prefix: 'j-icon-'});
 ```
 
 ## 组件 props
-- `icon`: 图标名称或渲染图标的函数
-- `title`: 为SVG元素添加一个 [&lt;title&gt;](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/title) 元素. 当鼠标悬停在该SVG元素时,显示文本内容
-- `width`: SVG元素的宽度
-- `height`: SVG元素的高度
+- `icon`: 需要渲染的图标的名称或该图标的渲染函数
+- `title`: 为 SVG 元素提供一个描述性字符串, 用来提升 SVG 文档的可访问性
+- `width`: SVG 元素宽度
+- `height`: SVG 元素高度
 - `ariaLabel`:
 HTML [aria-label](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-label_attribute) 属性.
 如果未传入任何值, [aria-hidden](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-hidden_attribute) 将为`true`

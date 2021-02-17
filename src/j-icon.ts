@@ -1,5 +1,5 @@
 'use strict';
-import {h as createElement, PropType, ComponentPropsOptions, FunctionalComponent, mergeProps} from 'vue';
+import {h as createElement, PropType, ComponentPropsOptions, FunctionalComponent} from 'vue';
 import IconNotFoundError from './not-found-error';
 import {Icon, Prop} from '../index';
 
@@ -20,8 +20,7 @@ const jIconProp: ComponentPropsOptions<Prop> = {
     title: {required: false, type: String},
     width: {required: false, type: [Number, String] as PropType<number | string>},
     height: {required: false, type: [Number, String] as PropType<number | string>},
-    ariaLabel: {required: false, type: String},
-    role: {required: false, type: String, default: 'img'}
+    ariaLabel: {required: false, type: String}
 };
 
 function findIcon(value: string | Icon): Icon {
@@ -75,7 +74,7 @@ const component: FunctionalComponent<Prop> = (props) => {
         viewBox: viewBox.join(' '),
         'aria-label': props.ariaLabel,
         'aria-hidden': (!props.ariaLabel).toString(),
-        role: props.role
+        role: 'img'
     };
 
     let children = detail.render();
