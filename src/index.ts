@@ -1,7 +1,7 @@
 'use strict';
-import {Plugin} from 'vue';
+import type {Plugin} from 'vue';
 import JIcon, {preset} from './j-icon';
-import {Icon, Option} from '../index';
+import type {Icon, Option} from '../index';
 
 /**
  * Vue plugin install function
@@ -34,5 +34,5 @@ const install: Plugin = (app, options: Option) => {
     preset.icons = processed;
 };
 
-export default install;
-export { JIcon };
+export default JIcon;
+export { install as plugin };

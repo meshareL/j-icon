@@ -13,9 +13,9 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "removeComments": true,
-    "sourceMap": true,
-    "noEmit": false
+    "skipLibCheck": true,
+    "noEmit": true,
+    "noEmitOnError": true
   },
   "include": [
     "src/**/*.ts"

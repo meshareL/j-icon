@@ -1,7 +1,8 @@
 'use strict';
-import {h as createElement, PropType, ComponentPropsOptions, FunctionalComponent} from 'vue';
+import {h as createElement} from 'vue';
+import type {PropType, ComponentPropsOptions, FunctionalComponent} from 'vue';
 import IconNotFoundError from './not-found-error';
-import {Icon, Prop} from '../index';
+import type {Icon, _Prop} from '../index';
 
 interface Preset {
     classes: string[];
@@ -11,22 +12,30 @@ interface Preset {
 
 const preset: Preset = {
     classes: [],
-    prefix: true,
+    prefix: false,
     icons: {}
-};
-
-const jIconProp: ComponentPropsOptions<Prop> = {
+}
+    , jIconProp: ComponentPropsOptions<_Prop> = {
     icon: {required: true, type: [String, Object] as PropType<string | Icon>},
-    title: {required: false, type: String},
     width: {required: false, type: [Number, String] as PropType<number | string>},
     height: {required: false, type: [Number, String] as PropType<number | string>},
-    ariaLabel: {required: false, type: String}
+    tabindex: {required: false, type: [Number, String] as PropType<number | string>},
+    title: {required: false, type: String},
+    ariaLabel: {required: false, type: String},
+    desc: {required: false, type: String},
+    ariaDescription: {required: false, type: String}
 };
+
+function generateId(): string {
+    return new Date().getTime().toString(16) + Math.random().toString(16).substring(2);
+}
 
 function findIcon(value: string | Icon): Icon {
     if (typeof value === 'string') {
         const obj = preset.icons[value];
-        if (!obj) throw new IconNotFoundError(value);
+        if (!obj) {
+            throw new IconNotFoundError(value);
+        }
 
         return obj;
     }
@@ -34,26 +43,28 @@ function findIcon(value: string | Icon): Icon {
     return value;
 }
 
-function mergeClass(name: string, icon: Icon): string[] {
+function mergeClass(name: string): string[] {
     const clazz = []
         , {classes, prefix} = preset;
 
-    if (classes.length) clazz.push(...classes);
-
-    if (typeof prefix === 'boolean') {
-        prefix && clazz.push(`icon-${name}`);
-    } else {
-        clazz.push(`${prefix}${name}`);
+    if (classes.length) {
+        clazz.push(...classes);
     }
 
-    if (icon.class) {
-        Array.isArray(icon.class) ? clazz.push(...icon.class) : clazz.push(icon.class);
+    if (typeof prefix === 'string') {
+        clazz.push(`${prefix}${name}`);
+    } else {
+        if (prefix) {
+            clazz.push(`icon-${name}`);
+        } else {
+            clazz.push(name);
+        }
     }
 
     return clazz;
 }
 
-const component: FunctionalComponent<Prop> = (props) => {
+const component: FunctionalComponent<_Prop> = (props) => {
     if (!props.icon) throw new Error('JIcon: You must pass in attributes for the icon parameter');
 
     const detail = findIcon(props.icon)
@@ -67,26 +78,66 @@ const component: FunctionalComponent<Prop> = (props) => {
     const [width, height] = detail.size || [viewBox[2], viewBox[3]]
         , data: Record<string, unknown> = {
         ...detail.attributes,
-        class: mergeClass(iconName, detail),
-        style: detail.style,
+        class: mergeClass(iconName),
         width: props.width || width,
         height: props.height || height,
         viewBox: viewBox.join(' '),
-        'aria-label': props.ariaLabel,
-        'aria-hidden': (!props.ariaLabel).toString(),
         role: 'img'
     };
 
     let children = detail.render();
-    if (props.title) {
-        const title = createElement('title', props.title);
+    if (!Array.isArray(children)) {
+        children = [children];
+    }
 
-        if (Array.isArray(children)) {
-            children.unshift(title);
+    let elementId = undefined
+      , ariaHidden = true;
+    if (props.desc) {
+        ariaHidden = false;
+        elementId = generateId();
+
+        const id = elementId + '_desc'
+        children.unshift(createElement('desc', {id},  props.desc));
+        Reflect.set(data, 'aria-describedby', id);
+
+    } else if (props.ariaDescription) {
+        ariaHidden = false;
+        Reflect.set(data, 'aria-description', props.ariaDescription);
+    }
+
+    if (props.title) {
+        ariaHidden = false;
+        elementId ??= generateId();
+
+        const id = elementId + '_title';
+        children.unshift(createElement('title', {id}, props.title));
+        Reflect.set(data, 'aria-labelledby', id);
+
+    } else if (props.ariaLabel) {
+        ariaHidden = false;
+        Reflect.set(data, 'aria-label', props.ariaLabel);
+    }
+
+    let tabindex = undefined;
+    if (props.tabindex !== null && props.tabindex !== undefined) {
+        if (typeof props.tabindex === 'string') {
+            const value = Number.parseInt(props.tabindex, 10);
+            if (!Number.isNaN(value)) {
+                tabindex = value;
+            }
         } else {
-            children = [title, children];
+            if (!Number.isNaN(props.tabindex)) {
+                tabindex = props.tabindex;
+            }
         }
     }
+
+    Reflect.set(data, 'tabindex', tabindex);
+    if (tabindex !== undefined && tabindex >= 0) {
+        ariaHidden = false;
+    }
+
+    Reflect.set(data, 'aria-hidden', String(ariaHidden));
 
     return createElement('svg', data, children);
 };

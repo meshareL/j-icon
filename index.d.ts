@@ -1,10 +1,13 @@
 import {VNode, VNodeArrayChildren, Plugin, FunctionalComponent, SVGAttributes} from 'vue';
 
-interface Icon<
-    V extends Array<number> = [number, number, number, number],
-    W extends number = number,
-    H extends number = number> {
+declare type KebabCase<T extends string, W extends string = ''> =
+    T extends `${infer L}${infer R}`
+        ? KebabCase<R, `${W}${L extends Lowercase<L> ? '' : '-'}${Lowercase<L>}`>
+        : W;
 
+declare type KebabCaseKey<T> = { [K in keyof T as K extends string ? KebabCase<K> : K]: T[K] };
+
+interface Icon<W extends number = number, H extends number = number> {
     /** 图标名称 */
     name: string;
     /**
@@ -12,13 +15,9 @@ interface Icon<
      *
      * @see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox viewBox
      */
-    viewBox: V;
+    viewBox: [number, number, number, number];
     /** SVG 元素 width, height 属性. 如果该属性为空, 将使用 viewBox 属性 */
     size?: [W, H];
-    /** SVG 元素 class */
-    class?: string | string[];
-    /** SVG 元素 style */
-    style?: string | Record<string, string>;
     /** SVG 元素其他属性, 不包含 viewBox, width, height 属性 */
     attributes?: Record<string, string>;
     /** 子节点渲染函数 */
@@ -44,7 +43,7 @@ interface Option {
      * rendered
      * <svg class="j-icon-x">...</svg>
      *
-     * @default true
+     * @default false
      */
     prefix?: string | boolean;
     /**
@@ -56,26 +55,66 @@ interface Option {
     icons?: Icon[] | Record<string, Icon>;
 }
 
-interface Prop {
+declare type A11yProp =
+    (
+          { title: string; 'aria-label'?: never; }
+        | { title?: never; 'aria-label': string; }
+        | { title?: never; 'aria-label'?: never; }
+    )
+    &
+    (
+          { desc: string; 'aria-description'?: never; }
+        | { desc?: never; 'aria-description': string; }
+        | { desc?: never; 'aria-description'?: never; }
+    );
+
+/**
+ * ariaLabel 与 title 属性不应同时使用, 如果同时提供这两种, 将优先使用 title
+ * ariaDescription 与 desc 属性同理, 将会优先使用 desc
+ *
+ * 使用 title 与 desc 属性时, 将自动生成 id, 并通过 aria-labelledby 与
+ * aria-describedby 引用元素
+ */
+interface _Prop {
     /** 需要渲染的图标的名称或该图标的渲染函数 */
     icon: string | Icon;
+    /** SVG 元素宽度 */
+    width?: number | string;
+    /** SVG 元素高度 */
+    height?: number | string;
+    /**
+     * SVG 元素是否可聚焦, 以及聚焦时的相对顺序
+     *
+     * @see https://www.w3.org/TR/SVG2/struct.html#tabindexattribute tabindex
+     */
+    tabindex?: number | string;
     /**
      * 为 SVG 元素提供一个描述性字符串, 用来提升 SVG 文档的可访问性
      *
      * @see https://developer.mozilla.org/en-US/docs/Web/SVG/Element/title title
      */
     title?: string;
-    /** SVG 元素宽度 */
-    width?: number | string;
-    /** SVG 元素高度 */
-    height?: number | string;
     /**
      * 为 SVG 元素添加标签描述
      *
      * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_aria-label_attribute aria-label
      */
     ariaLabel?: string;
+    /**
+     * 为 SVG 元素提供一个长文本描述
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/SVG/Element/desc desc
+     */
+    desc?: string;
+    /**
+     * 为 SVG 元素添加描述或注释
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-description aria-descript
+     */
+    ariaDescription?: string;
 }
+
+declare type Prop = SVGAttributes & KebabCaseKey<_Prop> & A11yProp;
 
 /**
  * 插件安装函数
@@ -83,7 +122,7 @@ interface Prop {
  * @see Option 插件选项
  */
 declare const install: Plugin;
-declare const component: FunctionalComponent<SVGAttributes & Prop>;
+declare const component: FunctionalComponent<Prop>;
 
-export default install;
-export { Icon, Option, component as JIcon, Prop };
+export default component;
+export { install as plugin, Icon, Option, Prop, _Prop };
