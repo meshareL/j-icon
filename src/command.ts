@@ -1,11 +1,14 @@
 'use strict';
+import FS from 'fs';
 import PATH from 'path';
 import chalk from 'chalk';
-import commander from 'commander';
-import pkg from '../package.json';
-import execute from './execute';
+import {createCommand, Command} from 'commander';
+import execute from './index';
+import type {OptionValues} from 'commander';
 
-const defaultFormats = ['json', 'esm', 'umd', 'ts', 'type'];
+const pkg = JSON.parse(FS.readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+
+const defaultFormats = ['esm', 'umd', 'ts', 'type'];
 
 function normalizePath(path: string): string {
     return PATH.isAbsolute(path) ? path : PATH.join(process.cwd(), path);
@@ -17,41 +20,71 @@ function executeFormat(value: string, prev: string[]): string[] {
         return [value];
     }
 
+    if (prev.some(val => val === value)) {
+        return prev;
+    }
+
+    if (!defaultFormats.includes(value)) {
+        return prev;
+    }
+
     prev.push(value);
     return prev;
 }
 
-commander
-    .storeOptionsAsProperties(false)
-    .passCommandToAction(false)
-    .allowUnknownOption(true)
-    .name('j-icon')
-    .version(pkg.version)
-    .description(pkg.description)
-    .requiredOption('-i, --input <path>', 'A file or directory path')
-    .requiredOption('-o, --output <path>', 'File output directory')
-    .option('-m, --minify', 'Compressed file', false)
-    .option<string[]>('-f, --format [formats...]', 'Output file format', executeFormat, defaultFormats)
-    .option<number>('-t, --target [version]', 'Target Vue version, 2 or 3', value => Number.parseInt(value, 10), 3)
-    .option('-n, --name [name]', 'Output file name', 'index')
-    .parse(process.argv);
+async function commandAction(options: OptionValues, command: Command): Promise<void> {
+    const codes: Record<string, string> = {};
 
-(async () => {
-    const opts = commander.opts();
     try {
-        await execute({
-            input: normalizePath(opts.input),
-            output: normalizePath(opts.output),
-            format: opts.format,
-            minify: opts.minify,
-            target: opts.target,
-            name: opts.name
-        });
+        for (const format of options.format) {
+            const code = await execute({input: normalizePath(options.input), format});
+            switch (format) {
+                case 'esm': {
+                    codes[`${options.name}.esm.js`] = code;
+                    break;
+                }
+                case 'umd': {
+                    codes[`${options.name}.umd.js`] = code;
+                    break;
+                }
+                case 'ts': {
+                    codes[`${options.name}.ts`] = code;
+                    break;
+                }
+                case 'type': {
+                    codes[`${options.name}.d.ts`] = code;
+                    break;
+                }
+            }
+        }
     } catch (e) {
-        console.log(chalk.red.bold(`j-icon-cli: ${e}`));
-        process.exit(1);
+        command.error(chalk.red.bold(`j-icon-cli: ${e}`), {exitCode: 1});
+        // console.log(chalk.red.bold(`j-icon-cli: ${e}`));
+        // process.exit(1);
+    }
+
+    const output = normalizePath(options.output);
+    FS.mkdirSync(output, {recursive: true});
+
+    for (const [name, code] of Object.entries(codes)) {
+        FS.writeFileSync(PATH.join(output, name), code, 'utf8');
     }
 
     console.log(chalk.green.bold('j-icon-cli: Processing is complete'));
-    process.exit(0);
-})();
+}
+
+async function command(argv = process.argv): Promise<void> {
+    const program = createCommand('j-icon')
+        .allowUnknownOption(true)
+        .version(pkg.version)
+        .description(pkg.description)
+        .requiredOption('-i, --input <path>', 'A file or directory path')
+        .requiredOption('-o, --output <path>', 'File output directory')
+        .option<string[]>('-f, --format [formats...]', 'Output file format', executeFormat, defaultFormats)
+        .option('-n, --name [name]', 'Output file name', 'index')
+        .action(commandAction);
+
+    await program.parseAsync(argv);
+}
+
+export default command;
