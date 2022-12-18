@@ -1,6 +1,6 @@
 {
   "name": "@tomoeed/j-icon-cli",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "j-icon command line interface",
   "author": "Lu Mengyao",
   "homepage": "https://github.com/meshareL/j-icon/tree/cli",
@@ -17,7 +17,8 @@
   "files": [
     "bin",
     "dist",
-    "index.d.ts"
+    "index.d.ts",
+    "svgo.config.cjs"
   ],
   "keywords": [
     "j-icon",
