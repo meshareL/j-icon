@@ -9,13 +9,21 @@ module.exports = {
             useBuiltIns: false
         }],
         ['@babel/preset-typescript', {
-            allowDeclareFields: true
+            allowDeclareFields: true,
+            optimizeConstEnums: true,
+            onlyRemoveTypeImports: true
         }]
     ],
     plugins: [
         ['@babel/plugin-transform-runtime', {
-            corejs: 3,
-            version: pkg.dependencies['@babel/runtime-corejs3']
+            corejs: false,
+            version: pkg.devDependencies['@babel/runtime']
+        }],
+        ['babel-plugin-polyfill-corejs3', {
+            // debug: true,
+            method: 'usage-pure',
+            version: pkg.devDependencies['core-js-pure'],
+            proposals: true
         }]
     ]
 };

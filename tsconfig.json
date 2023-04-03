@@ -3,7 +3,6 @@
     "strict": true,
     "lib": [
       "DOM",
-      "DOM.Iterable",
       "ESNext"
     ],
     "allowJs": true,
@@ -15,10 +14,12 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "noEmitOnError": true
+    "noEmitOnError": true,
+    "isolatedModules": true
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "test/**/*.ts"
   ],
   "exclude": [
     "node_modules"

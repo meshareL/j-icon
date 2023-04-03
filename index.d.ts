@@ -1,11 +1,5 @@
-import {VNode, VNodeArrayChildren, Plugin, FunctionalComponent, SVGAttributes} from 'vue';
-
-declare type KebabCase<T extends string, W extends string = ''> =
-    T extends `${infer L}${infer R}`
-        ? KebabCase<R, `${W}${L extends Lowercase<L> ? '' : '-'}${Lowercase<L>}`>
-        : W;
-
-declare type KebabCaseKey<T> = { [K in keyof T as K extends string ? KebabCase<K> : K]: T[K] };
+import { VNode, VNodeArrayChildren, Plugin, FunctionalComponent, SVGAttributes } from 'vue';
+import type { KebabCasedProperties } from 'type-fest';
 
 interface Icon<W extends number = number, H extends number = number> {
     /** 图标名称 */
@@ -114,7 +108,7 @@ interface _Prop {
     ariaDescription?: string;
 }
 
-declare type Prop = SVGAttributes & KebabCaseKey<_Prop> & A11yProp;
+declare type Prop = SVGAttributes & KebabCasedProperties<_Prop> & A11yProp;
 
 /**
  * 插件安装函数
