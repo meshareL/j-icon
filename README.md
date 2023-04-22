@@ -107,7 +107,7 @@ HTML [aria-label](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARI
 ```
 
 ## 创建图标对象
-图标对象属性查看 [Icon](https://github.com/meshareL/j-icon/blob/master/index.d.ts#L10)
+图标对象属性查看 [Icon](https://github.com/meshareL/j-icon/blob/master/index.d.ts#L4)
 ```javascript
 import {h as createElement} from 'vue';
 const book = {
