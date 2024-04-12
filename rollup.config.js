@@ -1,16 +1,15 @@
-const { defineConfig } = require('rollup')
-    , nodeResolve = require('@rollup/plugin-node-resolve')
-    , commonjs = require('@rollup/plugin-commonjs')
-    , typescript = require('@rollup/plugin-typescript')
-    , babel = require('@rollup/plugin-babel')
-    , terser = require('@rollup/plugin-terser')
-    , pkg = require('./package.json');
+import { defineConfig } from 'rollup';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
+import babel from '@rollup/plugin-babel';
+import terser from '@rollup/plugin-terser';
 
-module.exports = defineConfig({
+export default defineConfig({
     input: 'src/index.ts',
     output: [
         {
-            file: pkg.module,
+            file: 'dist/index.esm.js',
             format: 'module',
             sourcemap: true
         },
@@ -22,7 +21,7 @@ module.exports = defineConfig({
         },
         {
             name: 'JIcon',
-            file: pkg.main,
+            file: 'dist/index.umd.js',
             exports: 'named',
             format: 'umd',
             sourcemap: true,
@@ -42,11 +41,11 @@ module.exports = defineConfig({
     plugins: [
         nodeResolve(),
         commonjs(),
-        typescript(),
+        typescript({ include: 'src/**/*.ts', noForceEmit: true }),
         babel({
             exclude: 'node_modules/**',
             babelHelpers: 'runtime',
-            extensions: ['.js', '.ts', '.cjs', '.mjs']
+            extensions: [ '.js', '.ts', '.cjs', '.mjs' ]
         })
     ]
 });

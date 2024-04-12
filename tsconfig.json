@@ -1,21 +1,33 @@
 {
   "compilerOptions": {
     "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationDir": "type",
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "newLine": "lf",
+    "noEmit": true,
+    "noEmitOnError": true,
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "jsx": "preserve",
     "lib": [
       "DOM",
       "ESNext"
     ],
-    "allowJs": true,
     "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "noEmit": true,
-    "noEmitOnError": true,
-    "isolatedModules": true
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.ts",

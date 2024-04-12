@@ -3,6 +3,7 @@
   "version": "4.0.1",
   "description": "A SVG icon component for Vue",
   "author": "Lu Mengyao",
+  "type": "module",
   "homepage": "https://github.com/meshareL/j-icon",
   "repository": {
     "type": "git",
@@ -30,37 +31,39 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "rollup -c --strictDeprecations",
-    "test": "jest",
+    "build": "rollup -c",
+    "test": "vitest run",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "vue": "3.x"
   },
   "dependencies": {
-    "type-fest": "^3.7.2"
+    "type-fest": "^4.15.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.4",
-    "@babel/plugin-transform-runtime": "^7.21.4",
-    "@babel/preset-env": "^7.21.4",
-    "@babel/preset-typescript": "^7.21.4",
-    "@babel/runtime": "^7.21.0",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^24.0.1",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-terser": "^0.4.0",
-    "@rollup/plugin-typescript": "^11.0.0",
-    "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.11",
-    "@vue/test-utils": "^2.3.2",
-    "babel-plugin-polyfill-corejs3": "^0.7.1",
-    "core-js-pure": "^3.29.1",
-    "jest": "^29.5.0",
-    "jest-environment-jsdom": "^29.5.0",
-    "rimraf": "^4.4.1",
-    "rollup": "^3.20.2",
-    "typescript": "^5.0.3",
+    "@babel/core": "^7.24.4",
+    "@babel/plugin-transform-runtime": "^7.24.3",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-typescript": "^7.24.1",
+    "@babel/runtime": "^7.24.4",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/jsdom": "^21.1.6",
+    "@types/node": "^20.12.7",
+    "@vitest/coverage-v8": "^1.5.0",
+    "@vue/test-utils": "^2.4.5",
+    "babel-plugin-polyfill-corejs3": "^0.10.4",
+    "core-js-pure": "^3.36.1",
+    "jsdom": "^24.0.0",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.14.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5",
+    "vitest": "^1.5.0",
     "vue": "^3.2.47"
   }
 }

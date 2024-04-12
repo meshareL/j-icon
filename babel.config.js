@@ -1,7 +1,6 @@
-'use strict';
-const pkg = require('./package.json');
+import pkg from './package.json' assert { type: 'json' };
 
-module.exports = {
+export default {
     presets: [
         ['@babel/preset-env', {
             // debug: true,
@@ -21,6 +20,7 @@ module.exports = {
         }],
         ['babel-plugin-polyfill-corejs3', {
             // debug: true,
+            exclude: [ 'es.array.push', 'es.array.unshift' ],
             method: 'usage-pure',
             version: pkg.devDependencies['core-js-pure'],
             proposals: true
