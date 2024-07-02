@@ -1,7 +1,7 @@
 import { describe, it, beforeEach, afterEach, expect, vitest } from 'vitest';
 import { shallowMount, enableAutoUnmount } from '@vue/test-utils';
 import type { VueWrapper } from '@vue/test-utils';
-import JIcon, { plugin } from '../src';
+import JIcon, { plugin } from '../src/component';
 import icons, { alert, code, x } from './icon';
 import type { Icon } from '../index';
 
@@ -13,7 +13,7 @@ describe('Vue j-icon component', () => {
             it('default name', () => {
                 const element = shallowMount(JIcon, {
                     props: { icon: alert },
-                    global: { plugins: [ [ plugin ] ] }
+                    global: { plugins: [[ plugin ]] }
                 });
                 expect(element.vm.$.appContext.app.component(JIcon.displayName!)).not.toBeUndefined();
             });
@@ -21,9 +21,9 @@ describe('Vue j-icon component', () => {
             it('custom name', () => {
                 const name = 'CustomName'
                     , element = shallowMount(JIcon, {
-                    props: { icon: alert },
-                    global: { plugins: [ [ plugin, { name } ] ] }
-                });
+                        props: { icon: alert },
+                        global: { plugins: [[ plugin, { name }]] }
+                    });
                 expect(element.vm.$.appContext.app.component(name)).not.toBeUndefined();
             });
         });
@@ -32,7 +32,7 @@ describe('Vue j-icon component', () => {
             it('no prefix', () => {
                 const element = shallowMount(JIcon, {
                     props: { icon: alert },
-                    global: { plugins: [ [ plugin, { prefix: false } ] ] }
+                    global: { plugins: [[ plugin, { prefix: false }]] }
                 });
 
                 expect(element.exists()).toBe(true);
@@ -45,31 +45,31 @@ describe('Vue j-icon component', () => {
             it('default prefix', () => {
                 const element = shallowMount(JIcon, {
                     props: { icon: alert },
-                    global: { plugins: [ [ plugin, { prefix: true } ] ] }
+                    global: { plugins: [[ plugin, { prefix: true }]] }
                 });
 
                 expect(element.exists()).toBe(true);
-                expect(element.classes()).toContain(`icon-${ alert.name }`);
+                expect(element.classes()).toContain(`icon-${alert.name}`);
             });
 
             it('custom prefix', () => {
                 const prefix = 'custom-'
                     , element = shallowMount(JIcon, {
-                    props: { icon: alert },
-                    global: { plugins: [ [ plugin, { prefix } ] ] }
-                });
+                        props: { icon: alert },
+                        global: { plugins: [[ plugin, { prefix }]] }
+                    });
 
                 expect(element.exists()).toBe(true);
-                expect(element.classes()).toContain(`${ prefix }${ alert.name }`);
-            })
+                expect(element.classes()).toContain(`${prefix}${alert.name}`);
+            });
         });
 
         it('classes option', () => {
             const value = [ '0123456789', '9876543210' ]
                 , element = shallowMount(JIcon, {
-                props: { icon: alert },
-                global: { plugins: [ [ plugin, { classes: [ value ] } ] ] }
-            });
+                    props: { icon: alert },
+                    global: { plugins: [[ plugin, { classes: [ value ] }]] }
+                });
 
             expect(element.exists()).toBe(true);
             expect(element.classes()).toEqual(expect.arrayContaining(value));
@@ -88,7 +88,7 @@ describe('Vue j-icon component', () => {
         it('from SVG name', () => {
             const element = shallowMount(JIcon, {
                 props: { icon: 'x' },
-                global: { plugins: [ [ plugin, { icons } ] ] }
+                global: { plugins: [[ plugin, { icons }]] }
             });
             assertion(element, x);
         });
@@ -184,7 +184,7 @@ describe('Vue j-icon component', () => {
             expect(element.attributes('aria-hidden')).toBe('false');
         });
 
-        it('set title, add a title element, aria-hidden become false and aria-labelledby reference', async () => {
+        it('set title, add folder title element, aria-hidden become false and aria-labelledby reference', async () => {
             expect(element.find('title').exists()).toBeFalsy();
             expect(element.attributes('aria-hidden')).toBe('true');
 
@@ -199,7 +199,7 @@ describe('Vue j-icon component', () => {
             expect(element.attributes('aria-labelledby')).toBe(titleElement.attributes('id'));
         });
 
-        it('set desc, add a desc element, aria-hidden become false and aria-describedby reference', async () => {
+        it('set desc, add folder desc element, aria-hidden become false and aria-describedby reference', async () => {
             expect(element.find('desc').exists()).toBeFalsy();
             expect(element.attributes('aria-hidden')).toBe('true');
 

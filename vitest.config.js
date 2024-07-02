@@ -3,7 +3,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
     test: {
         include: [ '**/test/**/*.spec.[jt]s' ],
-        environment: 'jsdom',
+        environment: 'happy-dom',
         clearMocks: true,
         mockReset: true,
         restoreMocks: true,
@@ -12,9 +12,10 @@ export default defineConfig({
         coverage: {
             enabled: true,
             include: [
-                'src/index.ts',
-                'src/j-icon.ts',
-                'src/not-found-error.ts'
+                'src/component/index.ts',
+                'src/cli/parse.ts',
+                'src/cli/generate.ts',
+                'src/cli/index.ts'
             ]
         }
     }

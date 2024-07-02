@@ -1,7 +1,7 @@
 'use strict';
 import type {Plugin} from 'vue';
 import JIcon, {preset} from './j-icon';
-import type {Icon, Option} from '../index';
+import type {Icon, Option} from '../../index';
 
 /**
  * Vue plugin install function

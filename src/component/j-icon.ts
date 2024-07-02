@@ -2,7 +2,7 @@
 import { h as createElement } from 'vue';
 import type { PropType, ComponentPropsOptions, FunctionalComponent } from 'vue';
 import IconNotFoundError from './not-found-error';
-import type { Icon, _Prop } from '../index';
+import type { Icon, _Prop } from '../../index';
 
 interface Preset {
     classes: string[];
