@@ -3,7 +3,7 @@ Vue 3.0 SVG图标组件
 
 该组件仅渲染`<svg>`元素. 你必须通过`icon` prop 传入图标对象或在安装插件时传入需要使用的图标
 
-使用 [j-icon-cli](https://github.com/meshareL/j-icon/tree/cli) 批量创建图标
+使用 [CLI](#使用-1) 批量创建图标
 
 ## 安装
 ```shell
@@ -117,6 +117,18 @@ const book = {
     render: () => createElement('path', {d: ''})
 };
 ```
+
+## CLI
+### 使用
+```npm
+j-icon --input <input-path> --output <dist>
+```
+
+### 选项
+- -i, --input <path> 文件或文件夹路径, 支持输入多个路径
+- -o, --output <path> 文件输出目录
+- -f, --format 输出文件格式, 支持格式: esm, umd, ts, type (默认值: esm type)
+- -n, --name 输出文件名称 (默认值: index)
 
 ## License
 [Apache-2.0](https://github.com/meshareL/j-icon/blob/master/LICENSE)
