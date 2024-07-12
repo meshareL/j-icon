@@ -1,6 +1,6 @@
 {
   "name": "@tomoeed/j-icon",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "A SVG icon component for Vue",
   "author": "Lu Mengyao",
   "type": "module",
