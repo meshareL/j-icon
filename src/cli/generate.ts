@@ -1,4 +1,5 @@
-import { js_beautify } from 'js-beautify';
+import { format as prettierFormat } from 'prettier';
+import type { Options } from 'prettier';
 import camelcase from 'camelcase';
 import type { SVGElement } from './parse';
 
@@ -152,9 +153,9 @@ export {
 `;
 }
 
-function generate(elements: Map<string, SVGElement>, format: Format): string {
+function generate(elements: Map<string, SVGElement>, format: Format): Promise<string> {
     if (format === Format.DECLARE) {
-        return generateDeclare(elements);
+        return Promise.resolve(generateDeclare(elements));
     }
 
     let code: string;
@@ -164,13 +165,14 @@ function generate(elements: Map<string, SVGElement>, format: Format): string {
         code = generateEcmaModule(elements, format);
     }
 
-    return js_beautify(code, {
-        indent_char: ' ',
-        indent_size: 4,
-        indent_with_tabs: false,
-        eol: '\n',
-        end_with_newline: true
-    });
+    const option: Options = {
+        tabWidth: 4,
+        singleQuote: true,
+        trailingComma: 'none',
+        parser: format === Format.TYPESCRIPT ? 'typescript' : 'babel'
+    };
+
+    return prettierFormat(code, option);
 }
 
 export default generate;

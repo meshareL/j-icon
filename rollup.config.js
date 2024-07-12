@@ -10,23 +10,9 @@ export default defineConfig([
         input: 'src/component/index.ts',
         output: [
             {
-                file: 'dist/component/index.esm.js',
-                format: 'module',
-                sourcemap: true
-            },
-            {
                 file: 'dist/component/index.esm.min.js',
                 format: 'module',
-                sourcemap: true,
-                plugins: [ terser() ]
-            },
-            {
-                name: 'JIcon',
-                file: 'dist/component/index.umd.js',
-                exports: 'named',
-                format: 'umd',
-                sourcemap: true,
-                globals: { vue: 'Vue' }
+                sourcemap: true
             },
             {
                 name: 'JIcon',
@@ -34,8 +20,7 @@ export default defineConfig([
                 exports: 'named',
                 format: 'umd',
                 sourcemap: true,
-                globals: { vue: 'Vue' },
-                plugins: [ terser() ]
+                globals: { vue: 'Vue' }
             }
         ],
         external: [ 'vue' ],
@@ -43,41 +28,6 @@ export default defineConfig([
             nodeResolve(),
             commonjs(),
             typescript({ noForceEmit: true, tsconfig: 'src/component/tsconfig.json' }),
-            babel({
-                exclude: 'node_modules/**',
-                babelHelpers: 'runtime',
-                extensions: [ '.js', '.ts', '.cjs', '.mjs' ]
-            })
-        ]
-    },
-    {
-        input: 'src/cli/parse.ts',
-        output: [
-            {
-                file: 'dist/cli/parse.js',
-                format: 'commonjs',
-                sourcemap: true,
-                exports: 'auto'
-            },
-            {
-                file: 'dist/cli/parse.esm.js',
-                format: 'esm',
-                sourcemap: true
-            }
-        ],
-        external: [
-            'node:fs',
-            'node:path',
-            'camelcase',
-            'happy-dom',
-            'svgo',
-            'js-beautify',
-            'chalk'
-        ],
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            typescript({ noForceEmit: true, tsconfig: 'src/cli/tsconfig.json' }),
             babel({
                 exclude: 'node_modules/**',
                 babelHelpers: 'runtime',
@@ -90,18 +40,16 @@ export default defineConfig([
         input: 'src/cli/index.ts',
         output: {
             file: 'dist/cli/command.js',
-            format: 'commonjs',
+            format: 'module',
             sourcemap: true
         },
         external: [
-            'node:fs',
-            'node:path',
-            'node:url',
-            'node:process',
+            /node:/,
+            /core-js-pure/,
             'camelcase',
             'happy-dom',
             'svgo',
-            'js-beautify',
+            'prettier',
             'chalk',
             'commander'
         ],

@@ -4,8 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it, vitest } from 'vitest';
 import parse from '../src/cli/parse';
 import generate, { Format } from '../src/cli/generate';
-import type { JSBeautifyOptions } from 'js-beautify';
-import { js_beautify } from 'js-beautify';
+import { format as prettierFormat } from 'prettier';
 
 vitest.mock('svgo', async importOriginal => {
     return {
@@ -18,36 +17,29 @@ vitest.mock('svgo', async importOriginal => {
 });
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-    , elements = new Map(Array.from(parse(resolve(__dirname, 'asset')).entries()).sort(([ a ], [ b ]) => a.localeCompare(b)))
-    , jsBeautifyOption: JSBeautifyOptions = {
-        indent_char: ' ',
-        indent_size: 4,
-        indent_with_tabs: false,
-        eol: '\n',
-        end_with_newline: true
-    };
+    , elements = new Map(Array.from(parse(resolve(__dirname, 'asset')).entries()).sort(([ a ], [ b ]) => a.localeCompare(b)));
 
 describe('j-icon cli generate', () => {
-    it('generate esm code', () => {
-        const code = generate(elements, Format.ECMA_SCRIPT_MODULE)
+    it('generate esm code', async () => {
+        const code = await generate(elements, Format.ECMA_SCRIPT_MODULE)
             , template = readFileSync(resolve(__dirname, 'template', 'index.esm.js'), 'utf8');
-        expect(code).toBe(js_beautify(template, jsBeautifyOption));
+        expect(code).toBe(await prettierFormat(template, { tabWidth: 4, singleQuote: true, trailingComma: 'none', parser: 'babel' }));
     });
 
-    it('generate umd code', () => {
-        const code = generate(elements, Format.UNIVERSAL_MODULE)
+    it('generate umd code', async () => {
+        const code = await generate(elements, Format.UNIVERSAL_MODULE)
             , template = readFileSync(resolve(__dirname, 'template', 'index.umd.js'), 'utf8');
-        expect(code).toBe(js_beautify(template, jsBeautifyOption));
+        expect(code).toBe(await prettierFormat(template, { tabWidth: 4, singleQuote: true, trailingComma: 'none', parser: 'babel' }));
     });
 
-    it('generate ts code', () => {
-        const code = generate(elements, Format.TYPESCRIPT)
+    it('generate ts code', async () => {
+        const code = await generate(elements, Format.TYPESCRIPT)
             , template = readFileSync(resolve(__dirname, 'template', 'index.ts'), 'utf8');
-        expect(code).toBe(js_beautify(template, jsBeautifyOption));
+        expect(code).toBe(await prettierFormat(template, { tabWidth: 4, singleQuote: true, trailingComma: 'none', parser: 'typescript' }));
     });
 
-    it('generate declare code', () => {
-        const code = generate(elements, Format.DECLARE)
+    it('generate declare code', async () => {
+        const code = await generate(elements, Format.DECLARE)
             , template = readFileSync(resolve(__dirname, 'template', 'index.d.ts'), 'utf8');
         expect(code).toBe(template);
     });

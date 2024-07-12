@@ -1,4 +1,3 @@
-// import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import FS from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
@@ -19,7 +18,7 @@ type OptionValue = {
 const pkg = JSON.parse(FS.readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../../package.json'), 'utf8'))
     , formatOptionalValues = [ 'esm', 'umd', 'ts', 'type' ];
 
-function commandAction(options: OptionValue, command: Command): Promise<void> {
+async function commandAction(options: OptionValue, command: Command): Promise<void> {
     const formats = options.format
         .filter((value, index, self) => self.indexOf(value) === index)
         .filter(value => formatOptionalValues.includes(value));
@@ -39,16 +38,16 @@ function commandAction(options: OptionValue, command: Command): Promise<void> {
         for (const format of formats) {
             switch (format) {
                 case 'umd':
-                    codes.set(`${options.name}.umd.js`, generate(elements, Format.UNIVERSAL_MODULE));
+                    codes.set(`${options.name}.umd.js`, await generate(elements, Format.UNIVERSAL_MODULE));
                     break;
                 case 'esm':
-                    codes.set(`${options.name}.esm.js`, generate(elements, Format.ECMA_SCRIPT_MODULE));
+                    codes.set(`${options.name}.esm.js`, await generate(elements, Format.ECMA_SCRIPT_MODULE));
                     break;
                 case 'ts':
-                    codes.set(`${options.name}.ts`, generate(elements, Format.TYPESCRIPT));
+                    codes.set(`${options.name}.ts`, await generate(elements, Format.TYPESCRIPT));
                     break;
                 case 'type':
-                    codes.set(`${options.name}.d.ts`, generate(elements, Format.DECLARE));
+                    codes.set(`${options.name}.d.ts`, await generate(elements, Format.DECLARE));
                     break;
             }
         }

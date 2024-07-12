@@ -4,8 +4,7 @@ import { cwd } from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { describe, it, vitest, expect } from 'vitest';
 import command from '../src/cli/index';
-import { js_beautify } from 'js-beautify';
-import type { JSBeautifyOptions } from 'js-beautify';
+import { format as prettierFormat } from 'prettier';
 
 vitest.mock('svgo', async importOriginal => {
     return {
@@ -17,14 +16,7 @@ vitest.mock('svgo', async importOriginal => {
     };
 });
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-    , jsBeautifyOption: JSBeautifyOptions = {
-        indent_char: ' ',
-        indent_size: 4,
-        indent_with_tabs: false,
-        eol: '\n',
-        end_with_newline: true
-    };
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('j-icon cli command', () => {
     it.each([
@@ -158,6 +150,6 @@ describe('j-icon cli command', () => {
         expect(mkdirSync).toHaveBeenCalled();
         expect(writeFileSync).toHaveBeenCalledTimes(1);
         expect(paths).toEqual(expect.arrayContaining([ resolve(cwd(), 'test/generated/index.esm.js') ]));
-        expect(codes).toEqual(expect.arrayContaining([ js_beautify(template, jsBeautifyOption) ]));
+        expect(codes).toEqual(expect.arrayContaining([ await prettierFormat(template, { tabWidth: 4, singleQuote: true, trailingComma: 'none', parser: 'babel' }) ]));
     });
 });

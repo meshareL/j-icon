@@ -1,6 +1,7 @@
 import jslint from '@eslint/js';
 import tslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
+import globals from 'globals';
 
 export default [
     jslint.configs.recommended,
@@ -19,7 +20,10 @@ export default [
             'node_modules/**',
             'dist/**',
             'test/template/**'
-        ]
+        ],
+        languageOptions: {
+            globals: { ...globals.browser, ...globals.nodeBuiltin }
+        }
     },
     {
         rules: {

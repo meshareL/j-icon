@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-const { exit } = require('node:process')
-    , chalk = require('chalk')
-    , command = require('../dist/cli/command');
+import process from 'node:process';
+import chalk from 'chalk';
+import command from '../dist/cli/command.js';
 
 (async () => {
     try {
         await command(process.argv);
     } catch (e) {
         console.log(chalk.red.bold(`j-icon-cli: ${e}`));
-        exit(1);
+        process.exit(1);
     }
 })();

@@ -34,6 +34,8 @@ function loadFile(path: string): string[] {
     function fun(path: string): void {
         const status = lstatSync(path);
         if (status.isFile()) {
+            const { ext } = pathParse(path);
+            if (ext !== '.svg') return;
             files.push(path);
         }
 
