@@ -1,7 +1,7 @@
 import { VNode, VNodeArrayChildren, Plugin, FunctionalComponent, SVGAttributes } from 'vue';
 import type { KebabCasedProperties } from 'type-fest';
 
-interface Icon<W extends number = number, H extends number = number> {
+type Icon<W extends number = number, H extends number = number> = {
     /** 图标名称 */
     name: string;
     /**
@@ -16,9 +16,9 @@ interface Icon<W extends number = number, H extends number = number> {
     attributes?: Record<string, string>;
     /** 子节点渲染函数 */
     render: () => VNode | VNodeArrayChildren;
-}
+};
 
-interface Option {
+type Option = {
     /** 组件名称 */
     name?: string;
     /** 渲染 SVG 元素时, 默认添加的 class */
@@ -47,9 +47,9 @@ interface Option {
      * <j-icon icon="x"/>
      */
     icons?: Icon[] | Record<string, Icon>;
-}
+};
 
-declare type A11yProp =
+type A11yProp =
     (
           { title: string; 'aria-label'?: never; }
         | { title?: never; 'aria-label': string; }
@@ -69,7 +69,7 @@ declare type A11yProp =
  * 使用 title 与 desc 属性时, 将自动生成 id, 并通过 aria-labelledby 与
  * aria-describedby 引用元素
  */
-interface _Prop {
+type _Prop = {
     /** 需要渲染的图标的名称或该图标的渲染函数 */
     icon: string | Icon;
     /** SVG 元素宽度 */
@@ -106,9 +106,9 @@ interface _Prop {
      * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-description aria-descript
      */
     ariaDescription?: string;
-}
+};
 
-declare type Prop = SVGAttributes & KebabCasedProperties<_Prop> & A11yProp;
+type Prop = SVGAttributes & KebabCasedProperties<_Prop> & A11yProp;
 
 /**
  * 插件安装函数
@@ -119,4 +119,5 @@ declare const install: Plugin;
 declare const component: FunctionalComponent<Prop>;
 
 export default component;
-export { install as plugin, Icon, Option, Prop, _Prop };
+export { install as plugin };
+export type { Icon, Option, Prop, _Prop };
