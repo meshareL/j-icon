@@ -12,18 +12,14 @@
   "bugs": {
     "url": "https://github.com/meshareL/j-icon/issues"
   },
-  "main": "dist/component/index.umd.js",
-  "module": "dist/component/index.esm.js",
+  "main": "dist/component/index.umd.min.js",
+  "module": "dist/component/index.esm.min.js",
   "types": "index.d.ts",
   "exports": {
     ".": {
-      "import": "dist/component/index.esm.js",
-      "browser": "dist/component/index.umd.js",
+      "import": "dist/component/index.esm.min.js",
+      "browser": "dist/component/index.umd.min.js",
       "types": "index.d.ts"
-    },
-    "./cli": {
-      "import": "dist/cli/parse.esm.js",
-      "require": "dist/cli/parse.js"
     }
   },
   "files": [
