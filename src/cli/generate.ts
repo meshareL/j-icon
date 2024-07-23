@@ -40,10 +40,10 @@ function serializeChild(element: SVGElement, format: Format): string {
         nodes.push(node);
     });
 
-    const attrCode = serializeAttribute(element.attributes || {})
-        , nodeCode = nodes.length ? `[${nodes.join(', ')}]` : ''
-        , delimiter = attrCode && nodeCode ? ', ' : ''
-        , render = format === Format.UNIVERSAL_MODULE ? '_vue.h' : 'h';
+    const attrCode = serializeAttribute(element.attributes || {}),
+          nodeCode = nodes.length ? `[${nodes.join(', ')}]` : '',
+          delimiter = attrCode && nodeCode ? ', ' : '',
+          render = format === Format.UNIVERSAL_MODULE ? '_vue.h' : 'h';
 
     return `${render}('${element.nodeName}', ${attrCode}${delimiter}${nodeCode})`;
 }
@@ -86,10 +86,10 @@ function generateUniversalModule(elements: Map<string, SVGElement>): string {
 }(this, function(_vue) {
     'use strict';
     ${
-        Array.from(elements.entries())
+    Array.from(elements.entries())
         .map(([ name, element ]) => serializeElement(name, element, Format.UNIVERSAL_MODULE))
         .join('\n\n')
-    }
+}
 
     return {
         default: ${defaultExport},

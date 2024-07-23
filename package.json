@@ -16,11 +16,9 @@
   "module": "dist/component/index.esm.min.js",
   "types": "index.d.ts",
   "exports": {
-    ".": {
-      "import": "dist/component/index.esm.min.js",
-      "browser": "dist/component/index.umd.min.js",
-      "types": "index.d.ts"
-    }
+    "types": "./index.d.ts",
+    "import": "./dist/component/index.esm.min.js",
+    "browser": "./dist/component/index.umd.min.js"
   },
   "files": [
     "bin",
@@ -44,7 +42,9 @@
     "access": "public"
   },
   "scripts": {
-    "prebuild": "rimraf dist",
+    "clean": "rimraf dist",
+    "eslint": "eslint . --fix --debug",
+    "prebuild": "npm run clean && npm run eslint",
     "build": "rollup -c",
     "pretest": "npm run build",
     "test": "vitest run",

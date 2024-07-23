@@ -16,31 +16,31 @@ vitest.mock('svgo', async importOriginal => {
     };
 });
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-    , elements = new Map(Array.from(parse(resolve(__dirname, 'asset')).entries()).sort(([ a ], [ b ]) => a.localeCompare(b)));
+const __dirname = dirname(fileURLToPath(import.meta.url)),
+      elements = new Map(Array.from(parse(resolve(__dirname, 'asset')).entries()).sort(([ a ], [ b ]) => a.localeCompare(b)));
 
 describe('j-icon cli generate', () => {
     it('generate esm code', async () => {
-        const code = await generate(elements, Format.ECMA_SCRIPT_MODULE)
-            , template = readFileSync(resolve(__dirname, 'template', 'index.esm.js'), 'utf8');
+        const code = await generate(elements, Format.ECMA_SCRIPT_MODULE),
+              template = readFileSync(resolve(__dirname, 'template', 'index.esm.js'), 'utf8');
         expect(code).toBe(await prettierFormat(template, { tabWidth: 4, singleQuote: true, trailingComma: 'none', parser: 'babel' }));
     });
 
     it('generate umd code', async () => {
-        const code = await generate(elements, Format.UNIVERSAL_MODULE)
-            , template = readFileSync(resolve(__dirname, 'template', 'index.umd.js'), 'utf8');
+        const code = await generate(elements, Format.UNIVERSAL_MODULE),
+              template = readFileSync(resolve(__dirname, 'template', 'index.umd.js'), 'utf8');
         expect(code).toBe(await prettierFormat(template, { tabWidth: 4, singleQuote: true, trailingComma: 'none', parser: 'babel' }));
     });
 
     it('generate ts code', async () => {
-        const code = await generate(elements, Format.TYPESCRIPT)
-            , template = readFileSync(resolve(__dirname, 'template', 'index.ts'), 'utf8');
+        const code = await generate(elements, Format.TYPESCRIPT),
+              template = readFileSync(resolve(__dirname, 'template', 'index.ts'), 'utf8');
         expect(code).toBe(await prettierFormat(template, { tabWidth: 4, singleQuote: true, trailingComma: 'none', parser: 'typescript' }));
     });
 
     it('generate declare code', async () => {
-        const code = await generate(elements, Format.DECLARE)
-            , template = readFileSync(resolve(__dirname, 'template', 'index.d.ts'), 'utf8');
+        const code = await generate(elements, Format.DECLARE),
+              template = readFileSync(resolve(__dirname, 'template', 'index.d.ts'), 'utf8');
         expect(code).toBe(template);
     });
 });

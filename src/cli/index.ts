@@ -3,7 +3,8 @@ import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
 import { cwd } from 'node:process';
 import chalk from 'chalk';
-import { Command, createCommand } from 'commander';
+import { createCommand } from 'commander';
+import type { Command } from 'commander';
 import type { SVGElement } from './parse';
 import parse from './parse';
 import generate, { Format } from './generate';
@@ -15,8 +16,8 @@ type OptionValue = {
     name: string;
 };
 
-const pkg = JSON.parse(FS.readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../../package.json'), 'utf8'))
-    , formatOptionalValues = [ 'esm', 'umd', 'ts', 'type' ];
+const pkg = JSON.parse(FS.readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../../package.json'), 'utf8')),
+      formatOptionalValues = [ 'esm', 'umd', 'ts', 'type' ];
 
 async function commandAction(options: OptionValue, command: Command): Promise<void> {
     const formats = options.format
@@ -37,18 +38,18 @@ async function commandAction(options: OptionValue, command: Command): Promise<vo
     try {
         for (const format of formats) {
             switch (format) {
-                case 'umd':
-                    codes.set(`${options.name}.umd.js`, await generate(elements, Format.UNIVERSAL_MODULE));
-                    break;
-                case 'esm':
-                    codes.set(`${options.name}.esm.js`, await generate(elements, Format.ECMA_SCRIPT_MODULE));
-                    break;
-                case 'ts':
-                    codes.set(`${options.name}.ts`, await generate(elements, Format.TYPESCRIPT));
-                    break;
-                case 'type':
-                    codes.set(`${options.name}.d.ts`, await generate(elements, Format.DECLARE));
-                    break;
+            case 'umd':
+                codes.set(`${options.name}.umd.js`, await generate(elements, Format.UNIVERSAL_MODULE));
+                break;
+            case 'esm':
+                codes.set(`${options.name}.esm.js`, await generate(elements, Format.ECMA_SCRIPT_MODULE));
+                break;
+            case 'ts':
+                codes.set(`${options.name}.ts`, await generate(elements, Format.TYPESCRIPT));
+                break;
+            case 'type':
+                codes.set(`${options.name}.d.ts`, await generate(elements, Format.DECLARE));
+                break;
             }
         }
     } catch (e) {

@@ -16,21 +16,33 @@ export default [
         braceStyle: '1tbs'
     }),
     {
-        ignores: [
-            'node_modules/**',
-            'dist/**',
-            'test/template/**'
-        ],
-        languageOptions: {
-            globals: { ...globals.browser, ...globals.nodeBuiltin }
-        }
+        files: [
+            '**/*.js',
+            '**/*.ts'
+        ]
     },
     {
+        ignores: [
+            'node_modules/**/',
+            'dist/**',
+            'test/template/**'
+        ]
+    },
+    {
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+                ...globals.nodeBuiltin
+            }
+        },
         rules: {
             '@stylistic/jsx-indent': [ 'error', 2 ],
             '@stylistic/arrow-parens': [ 'warn', 'as-needed' ],
-            '@stylistic/comma-style': [ 'warn', 'last', {
-                exceptions: { VariableDeclaration: true }
+            '@stylistic/indent': [ 'error', 4, {
+                VariableDeclarator: 'first',
+                FunctionDeclaration: { parameters: 'first' },
+                FunctionExpression: { parameters: 'first' },
+                CallExpression: { arguments: 'first' }
             }],
             '@stylistic/array-bracket-spacing': [ 'warn', 'always', {
                 singleValue: true,

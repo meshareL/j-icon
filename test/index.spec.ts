@@ -19,11 +19,11 @@ describe('Vue j-icon component', () => {
             });
 
             it('custom name', () => {
-                const name = 'CustomName'
-                    , element = shallowMount(JIcon, {
-                        props: { icon: alert },
-                        global: { plugins: [[ plugin, { name }]] }
-                    });
+                const name = 'CustomName',
+                      element = shallowMount(JIcon, {
+                          props: { icon: alert },
+                          global: { plugins: [[ plugin, { name }]] }
+                      });
                 expect(element.vm.$.appContext.app.component(name)).not.toBeUndefined();
             });
         });
@@ -53,11 +53,11 @@ describe('Vue j-icon component', () => {
             });
 
             it('custom prefix', () => {
-                const prefix = 'custom-'
-                    , element = shallowMount(JIcon, {
-                        props: { icon: alert },
-                        global: { plugins: [[ plugin, { prefix }]] }
-                    });
+                const prefix = 'custom-',
+                      element = shallowMount(JIcon, {
+                          props: { icon: alert },
+                          global: { plugins: [[ plugin, { prefix }]] }
+                      });
 
                 expect(element.exists()).toBe(true);
                 expect(element.classes()).toContain(`${prefix}${alert.name}`);
@@ -65,11 +65,11 @@ describe('Vue j-icon component', () => {
         });
 
         it('classes option', () => {
-            const value = [ '0123456789', '9876543210' ]
-                , element = shallowMount(JIcon, {
-                    props: { icon: alert },
-                    global: { plugins: [[ plugin, { classes: [ value ] }]] }
-                });
+            const value = [ '0123456789', '9876543210' ],
+                  element = shallowMount(JIcon, {
+                      props: { icon: alert },
+                      global: { plugins: [[ plugin, { classes: [ value ] }]] }
+                  });
 
             expect(element.exists()).toBe(true);
             expect(element.classes()).toEqual(expect.arrayContaining(value));
@@ -217,8 +217,8 @@ describe('Vue j-icon component', () => {
 
     describe('event', () => {
         it('bind event', () => {
-            const onClick = vitest.fn<[ MouseEvent ], void>()
-                , element = shallowMount(JIcon, { props: { icon: alert }, attrs: { onClick } });
+            const onClick = vitest.fn<[ MouseEvent ], void>(),
+                  element = shallowMount(JIcon, { props: { icon: alert }, attrs: { onClick } });
             element.trigger('click');
 
             expect(onClick).toBeCalledTimes(1);

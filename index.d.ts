@@ -1,4 +1,4 @@
-import { VNode, VNodeArrayChildren, Plugin, FunctionalComponent, SVGAttributes } from 'vue';
+import { VNode, Plugin, FunctionalComponent, SVGAttributes } from 'vue';
 import type { KebabCasedProperties } from 'type-fest';
 
 type Icon<W extends number = number, H extends number = number> = {
@@ -15,7 +15,7 @@ type Icon<W extends number = number, H extends number = number> = {
     /** SVG 元素其他属性, 不包含 viewBox, width, height 属性 */
     attributes?: Record<string, string>;
     /** 子节点渲染函数 */
-    render: () => VNode | VNodeArrayChildren;
+    render: () => VNode | VNode[];
 };
 
 type Option = {
@@ -51,15 +51,15 @@ type Option = {
 
 type A11yProp =
     (
-          { title: string; 'aria-label'?: never; }
-        | { title?: never; 'aria-label': string; }
-        | { title?: never; 'aria-label'?: never; }
+          { title: string; 'aria-label'?: never }
+          | { title?: never; 'aria-label': string }
+          | { title?: never; 'aria-label'?: never }
     )
     &
     (
-          { desc: string; 'aria-description'?: never; }
-        | { desc?: never; 'aria-description': string; }
-        | { desc?: never; 'aria-description'?: never; }
+          { desc: string; 'aria-description'?: never }
+          | { desc?: never; 'aria-description': string }
+          | { desc?: never; 'aria-description'?: never }
     );
 
 /**

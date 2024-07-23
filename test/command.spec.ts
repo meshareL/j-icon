@@ -25,11 +25,11 @@ describe('j-icon cli command', () => {
         [ 'ts', 'ts' ],
         [ 'type', 'd.ts' ]
     ])('generate file', async (format, suffix) => {
-        const filename = `index.${suffix}`
-            , filePath = resolve(cwd(), 'test/generated', filename);
+        const filename = `index.${suffix}`,
+              filePath = resolve(cwd(), 'test/generated', filename);
 
-        const mkdirSync = vitest.spyOn(FS, 'mkdirSync').mockImplementation(vitest.fn())
-            , writeFileSync = vitest.spyOn(FS, 'writeFileSync').mockImplementation(vitest.fn());
+        const mkdirSync = vitest.spyOn(FS, 'mkdirSync').mockImplementation(vitest.fn()),
+              writeFileSync = vitest.spyOn(FS, 'writeFileSync').mockImplementation(vitest.fn());
 
         await command([
             'node',
@@ -51,8 +51,8 @@ describe('j-icon cli command', () => {
             resolve(cwd(), 'test/generated/index.umd.js')
         ];
 
-        const mkdirSync = vitest.spyOn(FS, 'mkdirSync').mockImplementation(vitest.fn())
-            , writeFileSync = vitest.spyOn(FS, 'writeFileSync').mockImplementation(vitest.fn());
+        const mkdirSync = vitest.spyOn(FS, 'mkdirSync').mockImplementation(vitest.fn()),
+              writeFileSync = vitest.spyOn(FS, 'writeFileSync').mockImplementation(vitest.fn());
 
         await command([
             'node',
@@ -74,9 +74,9 @@ describe('j-icon cli command', () => {
     });
 
     it('ignore unknown format', async () => {
-        const filePaths = [ resolve(cwd(), 'test/generated/index.esm.js') ]
-            , mkdirSync = vitest.spyOn(FS, 'mkdirSync').mockImplementation(vitest.fn())
-            , writeFileSync = vitest.spyOn(FS, 'writeFileSync').mockImplementation(vitest.fn());
+        const filePaths = [ resolve(cwd(), 'test/generated/index.esm.js') ],
+              mkdirSync = vitest.spyOn(FS, 'mkdirSync').mockImplementation(vitest.fn()),
+              writeFileSync = vitest.spyOn(FS, 'writeFileSync').mockImplementation(vitest.fn());
 
         await command([
             'node',
@@ -103,8 +103,8 @@ describe('j-icon cli command', () => {
             resolve(cwd(), 'test/generated/custom.umd.js')
         ];
 
-        const mkdirSync = vitest.spyOn(FS, 'mkdirSync').mockImplementation(vitest.fn())
-            , writeFileSync = vitest.spyOn(FS, 'writeFileSync').mockImplementation(vitest.fn());
+        const mkdirSync = vitest.spyOn(FS, 'mkdirSync').mockImplementation(vitest.fn()),
+              writeFileSync = vitest.spyOn(FS, 'writeFileSync').mockImplementation(vitest.fn());
 
         await command([
             'node',
@@ -127,9 +127,9 @@ describe('j-icon cli command', () => {
     });
 
     it('multiple input paths', async () => {
-        const template = FS.readFileSync(resolve(__dirname, 'template/multi-input.esm.js'), 'utf8')
-            , mkdirSync = vitest.spyOn(FS, 'mkdirSync').mockImplementation(vitest.fn())
-            , writeFileSync = vitest.spyOn(FS, 'writeFileSync').mockImplementation(vitest.fn());
+        const template = FS.readFileSync(resolve(__dirname, 'template/multi-input.esm.js'), 'utf8'),
+              mkdirSync = vitest.spyOn(FS, 'mkdirSync').mockImplementation(vitest.fn()),
+              writeFileSync = vitest.spyOn(FS, 'writeFileSync').mockImplementation(vitest.fn());
 
         await command([
             'node',
@@ -140,8 +140,8 @@ describe('j-icon cli command', () => {
             '-f', 'esm'
         ]);
 
-        const paths: string[] = []
-            , codes: string[] = [];
+        const paths: string[] = [],
+              codes: string[] = [];
         for (const args of writeFileSync.mock.calls) {
             paths.push(args[0] as string);
             codes.push(args[1] as string);

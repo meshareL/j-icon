@@ -2,7 +2,8 @@ import { readFileSync, lstatSync, readdirSync } from 'node:fs';
 import { parse as pathParse, join } from 'node:path';
 import { optimize } from 'svgo';
 import type { Config } from 'svgo';
-import { Window, Element } from 'happy-dom';
+import { Window } from 'happy-dom';
+import type { Element } from 'happy-dom';
 
 type SVGElement = {
     nodeName: string;
@@ -25,8 +26,8 @@ const svgoConfig: Config = {
     ]
 };
 
-const window = new Window()
-    , document = window.document;
+const window = new Window(),
+      document = window.document;
 
 function loadFile(path: string): string[] {
     const files: string[] = [];
@@ -75,8 +76,8 @@ function transform(element: Element): SVGElement {
 }
 
 function parse(path: string): Map<string, SVGElement> {
-    const paths = loadFile(path)
-        , elements = new Map<string, SVGElement>();
+    const paths = loadFile(path),
+          elements = new Map<string, SVGElement>();
 
     for (const filePath of paths) {
         document.body.innerHTML = optimize(readFileSync(filePath, 'utf8'), svgoConfig).data;
